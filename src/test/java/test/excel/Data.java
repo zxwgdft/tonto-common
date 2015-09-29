@@ -1,12 +1,14 @@
 package test.excel;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.tonto.common.base.annotation.Convert;
 import com.tonto.common.base.annotation.ExcelColumn;
 import com.tonto.common.base.annotation.PropertyConvert;
+import com.tonto.common.base.annotation.SubExcelRow;
 
 public class Data {
 	@ExcelColumn(index=0,name="姓名",defaultValue="无",width=20)
@@ -16,9 +18,12 @@ public class Data {
 	Date birthday;
 	
 	
-	@ExcelColumn(index=2,name="性格",defaultValue="无",width=20,alignment=CellStyle.ALIGN_CENTER)
+	@ExcelColumn(index=2,name="性格",defaultValue="无",width=6,alignment=CellStyle.ALIGN_CENTER)
 	@Convert(convert=SexConvert.class)
 	Integer sex;
+	
+	@SubExcelRow(Address.class)
+	List<Address> addresses;
 	
 	public static class SexConvert implements PropertyConvert<String>{
 

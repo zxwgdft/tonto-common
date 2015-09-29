@@ -2,27 +2,23 @@ package com.tonto.common.excel;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import org.apache.poi.ss.usermodel.BuiltinFormats;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
-import com.tonto.common.base.annotation.Convert;
-import com.tonto.common.base.annotation.ExcelColumn;
-import com.tonto.common.base.annotation.PropertyConvert;
+import com.tonto.common.excel.RowSet.CellSet;
 
 public class ExcelWriter<T> {
 	
-	private Map<Class<?>,PropertyConvert<?>> convertCacheMap;
 	
 	/*通用的样式*/
 	private CellStyle commonCellStyle;
@@ -40,7 +36,8 @@ public class ExcelWriter<T> {
 	/*当前工作簿*/
 	private Sheet currentSheet;
 	
-	Map<Integer,ExcelColumnSet> columnSetMap=new HashMap<Integer,ExcelColumnSet>();
+	
+	private RowSet rowSet;
 	
 	public ExcelWriter(Class<T> clazz,Workbook workbook) throws ExcelWriteException
 	{
@@ -55,88 +52,11 @@ public class ExcelWriter<T> {
 		
 		this.commonCellStyle=commonStyle;
 		this.titleCellStyle=titleStyle;
-		this.workbook=workbook;
+	 	this.workbook=workbook;
 		
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			ExcelColumn excelColumn=field.getAnnotation(ExcelColumn.class);
-			if(excelColumn!=null)
-			{
-				ExcelColumnSet columnSet=new ExcelColumnSet();
-				
-				String name=excelColumn.name();
-				columnSet.name="".equals(name)?field.getName():name;
-				
-				Integer index=excelColumn.index();
-				columnSet.index=index;
-				columnSet.field=field;
-				columnSet.width=excelColumn.width();
-				
-				CellStyle style=workbook.createCellStyle();
-				
-				//copy通用样式
-				if(commonCellStyle!=null)
-					style.cloneStyleFrom(commonCellStyle);
-				
-				columnSet.style=style;
-				
-				String format=excelColumn.format();
-				if(!"".equals(format))
-				{
-					//是否为excel自带格式化定义
-					short fmt=(short) BuiltinFormats.getBuiltinFormat(format);
-					fmt=fmt==-1?workbook.createDataFormat().getFormat(format):fmt;
-					style.setDataFormat(fmt);					
-				}
-				
-				if(excelColumn.wrapText())
-					style.setWrapText(true);
-				
-				int alignment=excelColumn.alignment();
-				if(alignment!=-1)
-					style.setAlignment((short) alignment);
-				
-				String defaultValue=excelColumn.defaultValue();
-				if(!"".equals(defaultValue))
-					columnSet.defaultValue=defaultValue;
-				
-				columnSet.autoWidth=excelColumn.autoWidth();
-				
-				
-				Convert convert=field.getAnnotation(Convert.class);
-				if(convert !=null)
-				{
-					Class<?> cla=convert.convert();
-					
-					if(convertCacheMap==null)
-						convertCacheMap=new HashMap<Class<?>,PropertyConvert<?>>();
-					
-					PropertyConvert<?> propertyconvert=convertCacheMap.get(cla);
-					
-					if(propertyconvert==null)
-					{
-						try {
-							propertyconvert=(PropertyConvert<?>) cla.newInstance();
-						} catch (Exception e) {
-							e.printStackTrace();
-							throw new ExcelWriteException("不能创建"+cla.getName()+"的实例");
-						}
-						
-						convertCacheMap.put(cla, propertyconvert);
-					}	
-					
-					columnSet.convert=propertyconvert;
-				}
-				
-				
-				columnSetMap.put(index, columnSet);
-			}
-			
-			
-		}
+	 	this.rowSet=RowSet.getRowSet(clazz, workbook, commonCellStyle);
 		
-		if(columnSetMap.size()==0)
+		if(rowSet.cellsets==null||rowSet.cellsets.size()==0)
 		{
 			throw new ExcelWriteException("没有任何列需要输出到excel！");
 		}
@@ -150,26 +70,34 @@ public class ExcelWriter<T> {
 	
 	private void writeTitle()
 	{
-		Row row=currentSheet.createRow(currentRowIndex++);
-		for(ExcelColumnSet set:columnSetMap.values())
+		writeRowTitle(currentSheet.createRow(currentRowIndex++),rowSet);		
+	}
+	
+	private void writeRowTitle(Row row,RowSet rowset){
+		for(CellSet set:rowset.cellsets)		
 		{
-			Cell cell=row.createCell(set.index);
-			cell.setCellValue(set.name);
-			
-			if(titleCellStyle==null)
-			{
-				if(commonCellStyle==null)
-					titleCellStyle=workbook.createCellStyle();
-				else
-					titleCellStyle=commonCellStyle;
-				titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+			if(set.rowset!=null)
+				writeRowTitle(row,set.rowset);
+			else
+			{	
+				Cell cell=row.createCell(set.index);
+				cell.setCellValue(set.name);
+				
+				if(titleCellStyle==null)
+				{
+					if(commonCellStyle==null)
+						titleCellStyle=workbook.createCellStyle();
+					else
+						titleCellStyle=commonCellStyle;
+					titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+				}
+				if(!set.autoWidth&&set.width>0)
+				{
+					currentSheet.setColumnWidth(set.index, set.width*256);
+				}
+				
+				cell.setCellStyle(titleCellStyle);
 			}
-			if(!set.autoWidth&&set.width>0)
-			{
-				currentSheet.setColumnWidth(set.index, set.width*256);
-			}
-			
-			cell.setCellStyle(titleCellStyle);
 		}
 	}
 	
@@ -191,95 +119,138 @@ public class ExcelWriter<T> {
 	public void writeAll(Collection<T> datas) throws ExcelWriteException{
 		for(T data:datas)
 		{
-			writeOne(data);
+			currentRowIndex+=writeRow(currentRowIndex,rowSet,data);
 		}
 	}
 	
-	public void writeOne(T data) throws ExcelWriteException
-	{
-		if(data==null)
-			throw new NullPointerException();
+	public void writeOne(T data) throws ExcelWriteException{
+		currentRowIndex+=writeRow(currentRowIndex,rowSet,data);
+	}
+	
+	private int writeRow(int rowNum,RowSet rowset,Object data) throws ExcelWriteException{
+		rowset.span=1;
+		Row row=currentSheet.getRow(rowNum);
+		row=row==null?currentSheet.createRow(rowNum):row;
 		
-		if(sheetMaxSize>0&&currentRowIndex>sheetMaxSize)
+		List<CellSet> csets=rowset.cellsets;
+		for(CellSet cset:csets)
 		{
-			startNewSheet();
-			writeTitle();
-		}
-		
-		int rowindex=currentRowIndex++;
-		Row row=currentSheet.createRow(rowindex);
-		
-		for(ExcelColumnSet set:columnSetMap.values())
-		{
-			Object value;
-			try {
-				value = set.field.get(data);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new ExcelWriteException("无法获取实例对象属性值");
-			} 
-			
-			if(set.convert!=null)
+			if(cset.rowset!=null)
 			{
+				Object value=null;
 				try {
-					value=set.convert.convert(value);
-				} catch (ValueFormatException e) {
+					value=cset.field.get(data);
+				} catch (Exception e) {
 					e.printStackTrace();
-					throw new ExcelWriteException(set.name+"数据字段转化错误");
-				}
+					throw new ExcelWriteException("无法获取实例对象属性值");
+				} 
 				
-			}
-			
-			value=value==null?set.defaultValue:value;
-			
-			Cell cell=row.createCell(set.index);
-			cell.setCellStyle(set.style);
-			
-			
-			if(value!=null)
-			{
-				if(set.autoWidth)
+				if(value instanceof Collection)
 				{
-					String st= value.toString();
-					set.maxCharSize=st.length();
-				}
-				
-				if(value instanceof String)
-				{
-					cell.setCellValue((String) value);
-				}
-				else if(value instanceof Integer)
-				{
-					cell.setCellValue((Integer)value);
-				}
-				else if(value instanceof Double)
-				{
-					cell.setCellValue((Double)value);
-				}
-				else if(value instanceof Long)
-				{
-					cell.setCellValue((Long)value);
-				}
-				else if(value instanceof Float)
-				{
-					cell.setCellValue((Float)value);
-				}
-				else if(value instanceof Date)
-				{
-					cell.setCellValue((Date)value);
-				}
-				else if(value instanceof Calendar)
-				{
-					cell.setCellValue((Calendar)value);
+					Collection<?> coll=(Collection<?>) value;
+					int rowsize=0;
+					for(Object obj:coll)
+					{	
+						rowsize+=writeRow(rowNum+rowsize,cset.rowset,obj);
+					}
+					rowset.span=Math.max(rowset.span, rowsize);
 				}
 				else
 				{
-					cell.setCellValue(value.toString());
+					throw new ExcelWriteException("子行必须是Collection接口实现类");
+				}
+			}	
+		}
+				
+		for(CellSet cset:csets)
+		{
+			if(cset.rowset==null)
+			{
+				Object value=null;
+				try {
+					value=cset.field.get(data);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new ExcelWriteException("无法获取实例对象属性值");
+				} 
+				
+				
+				if(cset.convert!=null)
+				{
+					try {
+						value=cset.convert.convert(value);
+					} catch (ValueFormatException e) {
+						e.printStackTrace();
+						throw new ExcelWriteException(cset.name+"数据字段转化错误");
+					}
+					
 				}
 				
-			}
+				value=value==null?cset.defaultValue:value;
+
+				
+				Cell cell=row.createCell(cset.index);
+				
+				
+				if(rowset.span>1)
+				{					
+					currentSheet.addMergedRegion(new CellRangeAddress(rowNum,rowNum+rowset.span-1,cset.index,cset.index));
+				}	
+			
+				cell.setCellStyle(cset.style);	
+											
+				
+				if(value!=null)
+				{
+					if(cset.autoWidth)
+					{
+						String st= value.toString();
+						cset.maxCharSize=st.length();
+					}
+					
+					if(value instanceof String)
+					{
+						cell.setCellValue((String) value);
+					}
+					else if(value instanceof Integer)
+					{
+						cell.setCellValue((Integer)value);
+					}
+					else if(value instanceof BigDecimal)
+					{
+						cell.setCellValue(((BigDecimal)value).doubleValue());
+					}
+					else if(value instanceof Double)
+					{
+						cell.setCellValue((Double)value);
+					}
+					else if(value instanceof Long)
+					{
+						cell.setCellValue((Long)value);
+					}
+					else if(value instanceof Float)
+					{
+						cell.setCellValue((Float)value);
+					}
+					else if(value instanceof Date)
+					{
+						cell.setCellValue((Date)value);
+					}
+					else if(value instanceof Calendar)
+					{
+						cell.setCellValue((Calendar)value);
+					}
+					else
+					{
+						cell.setCellValue(value.toString());
+					}
+					
+				}
+			}			
 		}
+		return rowset.span;
 	}
+	
 	
 	public void output(OutputStream output) throws IOException
 	{
@@ -302,8 +273,9 @@ public class ExcelWriter<T> {
 	 */
 	public CellStyle getColumnStyleCopy(int columnIndex)
 	{
-		ExcelColumnSet columnSet=columnSetMap.get(columnIndex);		
-		return columnSet==null?null:columnSet.style;
+		//ExcelColumnSet columnSet=columnSetMap.get(columnIndex);		
+		//return columnSet==null?null:columnSet.style;
+		return null;
 	}
 	
 	/**
@@ -313,35 +285,14 @@ public class ExcelWriter<T> {
 	 */
 	public void setColumnStyle(int columnIndex,CellStyle style)
 	{
-		if(style==null)
-			return;
-		ExcelColumnSet columnSet=columnSetMap.get(columnIndex);	
-		if(columnSet!=null)
-			columnSet.style=style;
+		//if(style==null)
+			//return;
+		//ExcelColumnSet columnSet=columnSetMap.get(columnIndex);	
+		//if(columnSet!=null)
+			//columnSet.style=style;
 	}
 	
 	
-	
-	public static class ExcelColumnSet{
-		Field field;
-		//列序号
-		int index;
-		//列标题
-		String name;
-		//列宽度
-		int width;
-		//是否自动适应宽度
-		boolean autoWidth;
-		//默认值
-		String defaultValue;
-		//列样式
-		CellStyle style;
-		//值转换类
-		PropertyConvert<?> convert;
-		
-		int maxCharSize;
-	}
-
 
 
 	public CellStyle getCommonCellStyle() {
@@ -367,5 +318,4 @@ public class ExcelWriter<T> {
 	public void setSheetMaxSize(int sheetMaxSize) {
 		this.sheetMaxSize = sheetMaxSize;
 	}
-	
 }

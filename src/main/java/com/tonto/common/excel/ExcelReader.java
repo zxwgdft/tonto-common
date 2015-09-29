@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-
 import com.tonto.common.base.annotation.Convert;
 import com.tonto.common.base.annotation.Property;
 import com.tonto.common.base.annotation.PropertyConvert;
-import com.tonto.common.base.annotation.PropertyType;
 import com.tonto.common.base.annotation.PropertyValidate;
+import com.tonto.common.base.annotation.PropertyType;
 import com.tonto.common.base.annotation.Validate;
+
 import com.tonto.common.excel.base.ICell;
 import com.tonto.common.excel.base.IRow;
 import com.tonto.common.excel.base.ISheet;
+
 
 public class ExcelReader<T> {
 		
@@ -27,7 +28,6 @@ public class ExcelReader<T> {
 	private ISheet sheet;
 	private int currentRowIndex;
 	private int lastRowIndex;
-	private int cellSize;
 	
 	private List<FieldSet> validFieldSetList;
 	private Class<T> clazz;
@@ -145,12 +145,12 @@ public class ExcelReader<T> {
 			}
 		}	
 		
-		cellSize=fieldCacheMap.keySet().size();
+		int size=fieldCacheMap.keySet().size();
 		
-		if(cellSize<=0)
+		if(size<=0)
 			throw new ExcelReadException("没有任何需要读取的属性");
 		
-		validFieldSetList=new ArrayList<FieldSet>(cellSize);
+		validFieldSetList=new ArrayList<FieldSet>(size);
 		
 		boolean result=false;
 		
@@ -196,7 +196,7 @@ public class ExcelReader<T> {
 	{
 		boolean result=false;
 		IRow row=sheet.getRow(rowIndex);
-		for(int i=0;i<cellSize;i++)
+		for(int i=0;i<row.getLastCellNum();i++)
 		{
 			ICell cell=row.getCell(i);
 			if(cell==null)
@@ -217,6 +217,7 @@ public class ExcelReader<T> {
 			}
 			
 		}
+		
 		return result;
 	}
 	
