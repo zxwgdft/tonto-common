@@ -10,7 +10,7 @@ public class B extends A{
 	
 	private List<String> addresses;
 	private Map<Integer,Date> map;
-	
+	private int[][] ts;
 	
 	public String getPhone() {
 		return phone;
@@ -36,7 +36,11 @@ public class B extends A{
 	public void setMap(Map<Integer, Date> map) {
 		this.map = map;
 	}
-	
-	
-	
+	public int[][] getTs() {
+		return ts;
+	}
+	public void setTs(int[][] ts) {
+		this.ts = ts;
+	}
+
 }

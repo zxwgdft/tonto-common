@@ -1,5 +1,6 @@
 package com.tonto.common.util;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,8 +43,7 @@ public class RandomObject {
 				
 		baseValueCreatorMap.put(int.class, intCreator);
 		baseValueCreatorMap.put(Integer.class, intCreator);
-		
-		
+				
 		RandomValueCreator<Double> doubleCreator=new RandomValueCreator<Double>(){
 			@Override
 			public Double getRandomValue() {
@@ -53,8 +53,7 @@ public class RandomObject {
 				
 		baseValueCreatorMap.put(double.class, doubleCreator);
 		baseValueCreatorMap.put(Double.class, doubleCreator);
-		
-		
+				
 		RandomValueCreator<Long> longCreator=new RandomValueCreator<Long>(){
 			@Override
 			public Long getRandomValue() {
@@ -72,8 +71,8 @@ public class RandomObject {
 			}			
 		};
 				
-		baseValueCreatorMap.put(long.class, floatCreator);
-		baseValueCreatorMap.put(Long.class, floatCreator);
+		baseValueCreatorMap.put(float.class, floatCreator);
+		baseValueCreatorMap.put(Float.class, floatCreator);
 		
 		RandomValueCreator<Byte> byteCreator=new RandomValueCreator<Byte>(){
 			@Override
@@ -84,8 +83,7 @@ public class RandomObject {
 				
 		baseValueCreatorMap.put(byte.class, byteCreator);
 		baseValueCreatorMap.put(Byte.class, byteCreator);
-		
-		
+			
 		RandomValueCreator<Boolean> booleanCreator=new RandomValueCreator<Boolean>(){
 			@Override
 			public Boolean getRandomValue() {
@@ -116,9 +114,7 @@ public class RandomObject {
 				return new BigDecimal(RandomUtil.getRandomInt());
 			}			
 		});
-
 	
-		
 	}
 	
 	
@@ -177,6 +173,11 @@ public class RandomObject {
 			T[] constants=clazz.getEnumConstants();
 			return constants.length>0?constants[RandomUtil.getRandomInt(constants.length-1)]:null;
 		}	
+		
+		if(clazz.isArray())
+		{		
+			return (T) randomArray(clazz);
+		}
 		
 		T obj;
 		try {
@@ -294,6 +295,18 @@ public class RandomObject {
 		return obj;		
 	}
 	
+	private Object randomArray(Class<?> clazz)
+	{
+		Class<?> c=clazz.getComponentType();		
+		int size=RandomUtil.getRandomInt(array_max_size)+1;
+		Object arr=Array.newInstance(c, size);
+		for(int i=0;i<size;i++)
+		{
+			Object val=c.isArray()?randomArray(c):createRandomObject(c);
+			Array.set(arr, i, val);
+		}
+		return arr;
+	}
 	
 	
 	public static interface RandomValueCreator<T>{
