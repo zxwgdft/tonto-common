@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -182,9 +183,9 @@ public class FieldValidator {
 		{
 			NotNull notnull=field.getAnnotation(NotNull.class);
 			if(notnull!=null)
-				return new ValidateResult(true);
+				return new ValidateResult(true,field.getName());
 			else
-				return new ValidateResult(false,getErrorMessage(notnull));
+				return new ValidateResult(false,field.getName(),getErrorMessage(notnull));
 		}
 					
 		Annotation[] anns=field.getDeclaredAnnotations();
@@ -192,27 +193,27 @@ public class FieldValidator {
 		{
 			AnnotationValidate validate=null;
 			if(privateValidators!=null)
-				validate=privateValidators.get(ann.getClass());
+				validate=privateValidators.get(ann.annotationType());
 			if(validate==null)
-				validate=validators.get(ann.getClass());
+				validate=validators.get(ann.annotationType());
 			if(validate!=null)
 			{
 				boolean result = validate.validate(ann, value);
 				if(!result)
 				{
-					return new ValidateResult(false,getErrorMessage(ann));
+					return new ValidateResult(false,field.getName(),getErrorMessage(ann));
 				}
 			}
 		}
 		
-		return new ValidateResult(true);
+		return new ValidateResult(true,field.getName());
 	}
 	
 	private final java.util.regex.Pattern pattern=java.util.regex.Pattern.compile("(?<=\\{)[a-z0-9A-Z_]+?(?=\\})");
 	
 	public String getErrorMessage(Annotation annotation)
 	{
-		Class<?> clazz=annotation.getClass();
+		Class<?> clazz=annotation.annotationType();
 		
 		try {
 			Method method=clazz.getDeclaredMethod("message");
@@ -241,18 +242,41 @@ public class FieldValidator {
 	
 	
 	public static class ValidateResult{
-		private boolean result;
-		private String message;
 		
-		public ValidateResult(boolean result)
+		private boolean result;
+		private String name;
+		private String message;
+		private List<ValidateResult> subValidateResult;
+		private boolean isArray=false;
+		
+		public ValidateResult(boolean result,String name)
 		{
+			this.name=name;
 			this.result=result;
 		}
 		
-		public ValidateResult(boolean result,String message)
+		public ValidateResult(boolean result,String name,String message)
 		{
+			this.name=name;
 			this.result=result;
 			this.message=message;
+		}
+		
+		public ValidateResult(boolean result,String name,String message,List<ValidateResult> subValidateResult)
+		{
+			this.name=name;
+			this.result=result;
+			this.message=message;
+			this.subValidateResult=subValidateResult;
+		}
+		
+		public ValidateResult(boolean result,String name,String message,List<ValidateResult> subValidateResult,boolean isArray)
+		{
+			this.name=name;
+			this.result=result;
+			this.message=message;
+			this.subValidateResult=subValidateResult;
+			this.isArray=isArray;
 		}
 		
 		public boolean isResult() {
@@ -266,6 +290,30 @@ public class FieldValidator {
 		}
 		public void setMessage(String message) {
 			this.message = message;
+		}
+
+		public List<ValidateResult> getSubValidateResult() {
+			return subValidateResult;
+		}
+
+		public void setSubValidateResult(List<ValidateResult> subValidateResult) {
+			this.subValidateResult = subValidateResult;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public boolean isArray() {
+			return isArray;
+		}
+
+		public void setArray(boolean isArray) {
+			this.isArray = isArray;
 		}
 	}
 }
