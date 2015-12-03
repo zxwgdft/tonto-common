@@ -35,7 +35,7 @@ public class AlgorithmUtil {
 		for(int i=0;i<l;i++)
 			is[i]=i;
 		
-		int[][] sorts=getAllSortArray(is);
+		int[][] sorts=sortArray(is);
 		
 		List<T[]> list=new ArrayList<T[]>(sorts.length);
 		
@@ -55,7 +55,7 @@ public class AlgorithmUtil {
 	 * @param arr
 	 * @return
 	 */
-	public static int[][] getAllSortArray(int[] arr)
+	public static int[][] sortArray(int[] arr)
 	{
 		if(arr==null)
 			return null;
@@ -85,7 +85,7 @@ public class AlgorithmUtil {
 					if(j!=i)
 						x[m++]=arr[j];
 				}
-				int [][] r=getAllSortArray(x);
+				int [][] r=sortArray(x);
 				
 				for(int n=0;n<r.length;n++)
 				{

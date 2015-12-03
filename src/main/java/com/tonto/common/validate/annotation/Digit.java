@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Digit{
-	public String message() default "必须为大于{max}并且小于{min}";
+	public String message() default "必须为小于{max}并且大于{min}";
 	public String min();
 	public String max();
 	public boolean inclusive() default true;
