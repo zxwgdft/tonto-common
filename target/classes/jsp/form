@@ -1,9 +1,0 @@
-<form id="addForm" action="add/ajax" method="post" class="form-horizontal" role="form">
-		<div class="form-group">
-			<label for="addHouseName" class="col-sm-3 control-label">房源名称</label>
-			<div class="col-sm-7">
-				<input type="text" class="form-control required" id="addHouseName"
-					name="houseName" placeholder="请输入房源名称" data-length=",50">
-			</div>
-		</div>
-</form>
