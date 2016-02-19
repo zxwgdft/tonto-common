@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -33,7 +32,7 @@ import com.tonto.common.validate.annotation.Pattern;
 public class FieldValidator {
 
 	private final static Map<Class<? extends Annotation>, AnnotationValidate<?>> validators;
-
+		
 	static {
 		validators = new HashMap<Class<? extends Annotation>, AnnotationValidate<?>>();
 		
@@ -71,66 +70,10 @@ public class FieldValidator {
 		});
 		
 		validators.put(IntegerEnum.class, new AnnotationValidate<IntegerEnum>() {
-			
-			private boolean numberIn(Object value,int[] values){
-				Integer val=null;
-				if(value instanceof Integer)
-					val=(Integer) value;
-				if(value instanceof Short)
-					val=(Integer) value;
-				if(value instanceof BigDecimal)
-					val=((BigDecimal) value).intValue();
-				if(value instanceof BigInteger)
-					val=((BigInteger) value).intValue();
-				if(value instanceof Long)
-					val=((Long) value).intValue();
-				
-				if(val!=null)
-				{
-					for(int i:values)
-					{
-						if(i==val)
-							return true;
-					}
-				}
-			
-				return false;
-			}
-			
-			@SuppressWarnings("rawtypes")
+					
 			@Override
 			public boolean validate(IntegerEnum annotation, Object value,Object validateObj) {
-				if(value==null)
-					return false;
-				int[] vs=annotation.value();
-				
-				Class<?> clazz=value.getClass();
-				if(clazz.isArray())
-				{
-					int len=Array.getLength(value);
-					for(int i=0;i<len;i++)
-					{
-						Object obj=Array.get(value, i);
-						if(!numberIn(obj,vs))
-							return false;
-					}
-					return true;
-				}
-				else if(Collection.class.isAssignableFrom(clazz))
-				{
-					Collection coll=(Collection) value;
-					for(Object obj:coll)
-					{
-						if(!numberIn(obj,vs))
-							return false;
-					}
-					return true;
-				}
-				else
-				{
-					return numberIn(value,vs);
-				}
-				
+				return ValidateUtil.isInIntegerArray(value, annotation.value());				
 			}
 
 		});
@@ -183,8 +126,7 @@ public class FieldValidator {
 			public boolean validate(Digit t, Object value,Object validateObj) {
 				if(value==null)
 					return false;
-				
-				
+							
 				try {
 					BigDecimal max = new BigDecimal(t.max());
 					BigDecimal min = new BigDecimal(t.min());
