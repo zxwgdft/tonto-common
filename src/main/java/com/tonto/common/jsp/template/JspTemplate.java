@@ -5,7 +5,6 @@ public class JspTemplate {
 	
 	public void createJsp()
 	{
-		
 	}
 	
 	

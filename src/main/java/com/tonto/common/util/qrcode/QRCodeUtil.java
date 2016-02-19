@@ -4,8 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,10 +27,6 @@ public class QRCodeUtil {
 
 	static {
 
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException, QRCodeException{
-		createQRCode("http://zxwgdft.oicp.net:29625/hms/login",new FileOutputStream("d:/f.png"));
 	}
 
 	/**

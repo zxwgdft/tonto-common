@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,22 +37,9 @@ public class JsonConvertor {
 			public Short convertValue(Object obj) throws JsonConvertException{
 				if(obj==null)
 					return null;
-				try{
-					if(obj instanceof String)
-						return Short.parseShort((String)obj);						
-					if(obj instanceof Integer)
-						return ((Integer) obj).shortValue(); 
-					if(obj instanceof Long)
-						return ((Long) obj).shortValue();
-					if(obj instanceof BigDecimal)
-						return ((BigDecimal) obj).shortValue();
-					if(obj instanceof BigInteger)
-						return ((BigInteger) obj).shortValue();
-				}
-				catch(Exception e){
-					
-				}
-				
+
+				if(obj instanceof Number)
+					return ((Number)obj).shortValue();
 				throw new JsonConvertException(obj+"无法转化为Short");
 			}			
 		};
@@ -66,22 +52,10 @@ public class JsonConvertor {
 			public Byte convertValue(Object obj) throws JsonConvertException{
 				if(obj==null)
 					return null;
-				try{
-					if(obj instanceof String)
-						return Byte.parseByte((String)obj);						
-					if(obj instanceof Integer)
-						return ((Integer) obj).byteValue();
-					if(obj instanceof Long)
-						return ((Long) obj).byteValue();
-					if(obj instanceof BigDecimal)
-						return ((BigDecimal) obj).byteValue();
-					if(obj instanceof BigInteger)
-						return ((BigInteger) obj).byteValue();
-				}
-				catch(Exception e){
-					
-				}
-				
+
+				if(obj instanceof Number)
+					return ((Number)obj).byteValue();
+						
 				throw new JsonConvertException(obj+"无法转化为Byte");
 			}			
 		};
@@ -116,21 +90,9 @@ public class JsonConvertor {
 			public Integer convertValue(Object obj) throws JsonConvertException{
 				if(obj==null)
 					return null;
-				try{
-					if(obj instanceof String)
-						return Integer.parseInt((String)obj);						
-					if(obj instanceof Integer)
-						return (Integer) obj;
-					if(obj instanceof Long)
-						return ((Long) obj).intValue();
-					if(obj instanceof BigDecimal)
-						return ((BigDecimal) obj).intValue();
-					if(obj instanceof BigInteger)
-						return ((BigInteger) obj).intValue();
-				}
-				catch(Exception e){
-					
-				}
+	
+				if(obj instanceof Number)
+					return ((Number)obj).intValue();
 				
 				throw new JsonConvertException(obj+"无法转化为Integer");
 			}			
@@ -145,21 +107,9 @@ public class JsonConvertor {
 			public Long convertValue(Object obj) throws JsonConvertException{
 				if(obj==null)
 					return null;
-				try{
-					if(obj instanceof String)
-						return Long.parseLong((String)obj);						
-					if(obj instanceof Integer)
-						return (Long) obj;
-					if(obj instanceof Long)
-						return (Long) obj;
-					if(obj instanceof BigDecimal)
-						return ((BigDecimal) obj).longValue();
-					if(obj instanceof BigInteger)
-						return ((BigInteger) obj).longValue();
-				}
-				catch(Exception e){
-					
-				}
+
+				if(obj instanceof Number)
+					return ((Number)obj).longValue();
 				
 				throw new JsonConvertException(obj+"无法转化为Long");
 			}			
@@ -173,21 +123,9 @@ public class JsonConvertor {
 			public Double convertValue(Object obj) throws JsonConvertException{
 				if(obj==null)
 					return null;
-				try{
-					if(obj instanceof String)
-						return Double.parseDouble((String)obj);						
-					if(obj instanceof Integer)
-						return (Double) obj;
-					if(obj instanceof Long)
-						return (Double) obj;
-					if(obj instanceof BigDecimal)
-						return ((BigDecimal) obj).doubleValue();
-					if(obj instanceof BigInteger)
-						return ((BigInteger) obj).doubleValue();
-				}
-				catch(Exception e){
-					
-				}
+
+				if(obj instanceof Number)
+					return ((Number)obj).doubleValue();
 				
 				throw new JsonConvertException(obj+"无法转化为Double");
 			}			
