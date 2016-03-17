@@ -1,0 +1,30 @@
+                   <#list datas as data>
+                   <w:p>
+                       <w:pPr />
+                       <w:r>
+                           <w:t>姓名：</w:t>
+                       </w:r>
+                       <w:r>
+                           <w:rPr>
+                               <w:rFonts w:hint="eastAsia" />
+                           </w:rPr>
+                           <w:t>${data.name}</w:t>
+                       </w:r>
+                   </w:p>
+                   <w:p>
+					<w:r>
+						<w:rPr>
+							<w:noProof/>
+						</w:rPr>
+						<w:pict>							
+							<w:binData w:name="wordml://${data.pictureName}" xml:space="preserve">${data.pictureData}</w:binData>
+							<v:shape id="图片${data_index}" o:spid="_x0000_i1025" style="width:415.5pt;height:207.75pt;visibility:visible;mso-wrap-style:square">
+							<v:imagedata src="wordml://${data.pictureName}" o:title="beij"/>
+							</v:shape>
+						</w:pict>
+						</w:r>
+                   </w:p>
+                   </#list>
+	</w:body>
+</w:wordDocument>
+                    
