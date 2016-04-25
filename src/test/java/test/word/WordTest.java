@@ -32,15 +32,35 @@ public class WordTest {
 		List<Map<String,String>> info=new ArrayList<>();
 		
 		Map<String,String> info1=new HashMap<>();
-		info1.put("infoFile", encodeFile("d:/dd.jpg"));
+		info1.put("infoFile", encodeFile("d:/dd.jpeg"));
 		info1.put("infoName", "正面照片");
 		
 		Map<String,String> info2=new HashMap<>();
 		info2.put("infoFile", encodeFile("d:/d.jpeg"));
 		info2.put("infoName", "反面照片");
 		
+		Map<String,String> info3=new HashMap<>();
+		info3.put("infoFile", encodeFile("d:/d.jpeg"));
+		info3.put("infoName", "反面照片");
+		
+		Map<String,String> info4=new HashMap<>();
+		info4.put("infoFile", encodeFile("d:/d.jpeg"));
+		info4.put("infoName", "反面照片");
+		
+		Map<String,String> info5=new HashMap<>();
+		info5.put("infoFile", encodeFile("d:/d.jpeg"));
+		info5.put("infoName", "反面照片");
+		
+		Map<String,String> info6=new HashMap<>();
+		info6.put("infoFile", encodeFile("d:/d.jpeg"));
+		info6.put("infoName", "反面照片");
+		
 		info.add(info1);
 		info.add(info2);
+		info.add(info3);
+		info.add(info4);
+		info.add(info5);
+		info.add(info6);
 		
 		Map<String,Object> data1=new HashMap<>();
 		data1.put("orderNumber", "S00001");
@@ -56,7 +76,7 @@ public class WordTest {
 		data1.put("cellphone", "13584950680");
 		data1.put("idType", "身份证");
 		data1.put("idNumber", "320583198806119617");
-		data1.put("paymentInformation", encodeFile("d:/beij.jpeg"));
+		//data1.put("paymentInformation", "");
 		data1.put("info", info);
 		
 		Map<String,Object> data2=new HashMap<>();		

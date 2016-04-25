@@ -99,5 +99,11 @@
     	<artifactId>freemarker</artifactId>
     	<version>2.3.9</version>
     </dependency>
+     <dependency>
+		      <groupId>org.xhtmlrenderer</groupId>
+		      <artifactId>core-renderer</artifactId>
+		      <version>R8</version>
+		      <scope>compile</scope>
+	    </dependency>
   </dependencies>
 </project>
