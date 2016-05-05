@@ -11,6 +11,7 @@ public class ProbabilityUtil {
 	 * @param n
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	public int[][] A(int m,int n)
 	{
 		if(m>=n&&n>0)
@@ -54,6 +55,7 @@ public class ProbabilityUtil {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	private void A(int[][] matrix,int r,int c,int m,int n)
 	{
 		//if()
@@ -78,6 +80,7 @@ public class ProbabilityUtil {
 	 * @param m
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private int[][] P(int m)
 	{
 		return A(m,m);				

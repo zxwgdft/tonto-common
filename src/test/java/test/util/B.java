@@ -9,8 +9,10 @@ public class B extends A{
 	private Date birthday;
 	
 	private List<String> addresses;
-	private Map<Integer,Date> map;
+	private Map<String,Date> map;
 	private int[][] ts;
+	
+	private A a;
 	
 	public String getPhone() {
 		return phone;
@@ -30,17 +32,24 @@ public class B extends A{
 	public void setAddresses(List<String> addresses) {
 		this.addresses = addresses;
 	}
-	public Map<Integer, Date> getMap() {
-		return map;
-	}
-	public void setMap(Map<Integer, Date> map) {
-		this.map = map;
-	}
+
 	public int[][] getTs() {
 		return ts;
 	}
 	public void setTs(int[][] ts) {
 		this.ts = ts;
+	}
+	public Map<String, Date> getMap() {
+		return map;
+	}
+	public void setMap(Map<String, Date> map) {
+		this.map = map;
+	}
+	public A getA() {
+		return a;
+	}
+	public void setA(A a) {
+		this.a = a;
 	}
 
 }

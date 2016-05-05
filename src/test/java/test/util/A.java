@@ -1,6 +1,6 @@
 package test.util;
 
-public abstract class A {
+public class A {
 	private String name;
 	private int age;
 	public String getName() {
