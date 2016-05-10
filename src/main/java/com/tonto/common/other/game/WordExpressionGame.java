@@ -1,6 +1,6 @@
 package com.tonto.common.other.game;
 
-import com.tonto.common.util.StatisticsUtil;
+import com.tonto.common.util.ProbabilityUtil;
 
 /**
  * 求满足ABCD*E=DCBA的数字，其中ABCD各代表一个0-9的数字
@@ -14,7 +14,8 @@ public class WordExpressionGame {
 		
 	public static void main(String[] args){
 
-		int[][] result=StatisticsUtil.arrange(is, 5);
+		int[][] result=ProbabilityUtil.A(10,5);
+		
 		for(int[] r:result)
 		{
 			test(r[0],r[1],r[2],r[3],r[4]);			
