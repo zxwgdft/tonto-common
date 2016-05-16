@@ -1,9 +1,9 @@
-package com.tonto.common.im.request.message.model.cmd;
+package com.tonto.common.im.request.message.body;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tonto.common.im.request.message.model.MessageBody;
+import com.tonto.common.im.request.message.body.action.CmdAction;
 
 /**
  * 通过环信文本消息传递我们的命令动作

@@ -11,15 +11,16 @@ import com.tonto.common.im.request.user.SingleRegisterRequest;
 
 public class IMTest {
 	
+	@Test
 	public void sendRegisteRequest() throws IMException
 	{
-		String username="lucygirl";
-		String nickname="mary";
+		String username="TONTOZHOU1";
+		String nickname="zhouxuwu22s";
 		IMManager.sendRequest(new SingleRegisterRequest(username,nickname));
 
 	}
 	
-	@Test
+	
 	public void sendAddFriendRequest() throws IMException
 	{
 		String aUserName="ABC";

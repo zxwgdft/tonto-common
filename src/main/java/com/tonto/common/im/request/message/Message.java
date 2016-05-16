@@ -1,6 +1,6 @@
 package com.tonto.common.im.request.message;
 
-import com.tonto.common.im.request.message.model.MessageBody;
+import com.tonto.common.im.request.message.body.MessageBody;
 
 /**
  * 消息

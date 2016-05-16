@@ -1,4 +1,4 @@
-package com.tonto.common.im.request.message.model;
+package com.tonto.common.im.request.message.body;
 
 /**
  * 文本消息主体

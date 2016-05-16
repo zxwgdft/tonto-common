@@ -1,15 +1,13 @@
-package com.tonto.common.im.request.message.model.cmd;
+package com.tonto.common.im.request.message.body.action;
 
 /**
- * 简单透传消息动作
+ * 简单视图消息动作
  * @author TontoZhou
  *
  */
-public class SimpleCmdAction extends CmdAction{
+public class SimpleViewCmdAction extends ViewCmdAction{
 	
 	public final static String TYPE="simple";
-	
-	
 	
 	@Override
 	public String getActionType() {

@@ -62,7 +62,7 @@ public class IMServlet {
 		
 		createBaseUri();
 		
-		logger.info("初始化IM应用:\nappKey:"+appKey+"\nclientId:"+clientId+"\nclientSecret:"+clientSecret+"\nIM的基础路径:"+baseUri);
+		logger.info("初始化IM应用:\n\tappKey:"+appKey+"\n\tclientId:"+clientId+"\n\tclientSecret:"+clientSecret+"\n\tIM的基础路径:"+baseUri);
 	}
 	
 	protected void createBaseUri(){				

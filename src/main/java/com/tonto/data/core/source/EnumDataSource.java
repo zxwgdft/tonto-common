@@ -45,5 +45,10 @@ public class EnumDataSource<T extends Enum<T>> implements DataSource{
 
 		return null;
 	}
-	
+
+	@Override
+	public String getKey() {
+		return enumClass.getName();
+	}
+
 }

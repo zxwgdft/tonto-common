@@ -2,7 +2,7 @@ package com.tonto.common.im.request.message;
 
 import java.util.Map;
 
-import com.tonto.common.im.request.message.model.MessageBody;
+import com.tonto.common.im.request.message.body.MessageBody;
 
 /**
  * 拥有扩展字段的Message，ext不能为空

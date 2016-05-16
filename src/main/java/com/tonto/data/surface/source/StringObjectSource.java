@@ -44,6 +44,11 @@ public class StringObjectSource extends SourceSurface<ObjectDataSource>{
 	 */
 	private int type;
 	
+	/**
+	 * 数据源标识
+	 */
+	private String key;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public ObjectDataSource createDataSource() {
@@ -54,7 +59,7 @@ public class StringObjectSource extends SourceSurface<ObjectDataSource>{
 			
 			try {				
 				Map<String,Object> dataMap = mapper.readValue(data, Map.class);
-				return new ObjectDataSource(dataMap);			
+				return new ObjectDataSource(dataMap,key);			
 			} catch (IOException e) {				
 				logger.error("转化JSON格式数据错误",e);
 			}
@@ -63,7 +68,7 @@ public class StringObjectSource extends SourceSurface<ObjectDataSource>{
 		{
 			
 			Map<String,Object> dataMap = XmlUtil.convert2map(data);
-			return new ObjectDataSource(dataMap);					
+			return new ObjectDataSource(dataMap,key);					
 		}
 		else
 		{

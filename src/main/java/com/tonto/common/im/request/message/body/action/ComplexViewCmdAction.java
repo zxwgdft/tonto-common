@@ -1,11 +1,11 @@
-package com.tonto.common.im.request.message.model.cmd;
+package com.tonto.common.im.request.message.body.action;
 
 /**
- * 复杂消息透传动作
+ * 复杂视图消息动作
  * @author TontoZhou
  *
  */
-public class ComplexCmdAction extends CmdAction{
+public class ComplexViewCmdAction extends ViewCmdAction{
 
 	public final static String TYPE="complex";
 	

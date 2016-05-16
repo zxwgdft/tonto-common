@@ -13,4 +13,11 @@ public interface DataSource {
 	 * @return
 	 */
 	public Object getData(Object...id);
+	
+	/**
+	 * 数据源的唯一标识
+	 * @return
+	 */
+	public String getKey();
+	
 }

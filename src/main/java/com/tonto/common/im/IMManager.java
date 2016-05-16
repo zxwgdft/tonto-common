@@ -22,7 +22,7 @@ public class IMManager {
 	private final static String clientSecret="YXA6ScaXJef8itgcSwxo3SWS_qZWcSk";
 	private final static String password="1988gdft";
 	
-	private final static IMServlet imServlet;
+	private static IMServlet imServlet;
 	
 	static{
 		imServlet=new IMServlet(appKey,clientId,clientSecret,password);	
@@ -49,6 +49,10 @@ public class IMManager {
 	
 	public static IMServlet getIMServlet() {
 		return imServlet;
+	}
+	
+	public static void setIMServlet(IMServlet servlet) {
+		imServlet = servlet;
 	}
 
 	public static final ContentType TEXT_PLAIN = ContentType.create(

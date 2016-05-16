@@ -1,6 +1,6 @@
-package com.tonto.common.im.request.message.model.cmd;
+package com.tonto.common.im.request.message.body;
 
-import com.tonto.common.im.request.message.model.MessageBody;
+import com.tonto.common.im.request.message.body.action.CmdAction;
 
 /**
  * 消息透传

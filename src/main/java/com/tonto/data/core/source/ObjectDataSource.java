@@ -16,10 +16,13 @@ public class ObjectDataSource implements DataSource{
 
 	private Object data;
 	
-	public ObjectDataSource(Object data){
+	private String key;
+	
+	public ObjectDataSource(Object data,String key){
 		if(data == null)
 			throw new NullPointerException();
 		this.data = data;
+		this.key = key;
 	}
 	
 	@Override
@@ -30,6 +33,11 @@ public class ObjectDataSource implements DataSource{
 		String path=id[0].toString();
 		
 		return DataGetter.get(data, path);		
+	}
+
+	@Override
+	public String getKey() {
+		return key;
 	}
 	
 	

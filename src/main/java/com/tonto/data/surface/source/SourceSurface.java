@@ -13,6 +13,7 @@ public abstract class SourceSurface<T extends DataSource> {
 	/**
 	 * 数据资源
 	 */
+	
 	protected T dataSource;
 	
 	/**

@@ -30,7 +30,7 @@ public class IMTokenHelper {
 	 * @return
 	 */
 	public static String getToken() {
-
+		
 		if (expiresTime < System.currentTimeMillis() || accessToken == null) {
 			synchronized (lock) {
 				if (expiresTime < System.currentTimeMillis()

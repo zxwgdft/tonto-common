@@ -3,6 +3,7 @@ package test.util;
 import org.junit.Test;
 
 import com.tonto.common.other.game.TwentyFourGame;
+import com.tonto.common.template.annotation.TemplateCreator;
 import com.tonto.common.util.ProbabilityUtil;
 
 public class ACTest {
@@ -26,5 +27,11 @@ public class ACTest {
 	public void twentyfour(){
 		TwentyFourGame game=new TwentyFourGame();		
 		System.out.println(game.play1(7,8,2,4));
+		
+		TemplateCreator.createStatic(B.class);
+		
+		System.out.println(B.getMessage());
 	}
+	
+
 }

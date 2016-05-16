@@ -21,14 +21,23 @@ public class PdfCreator {
         html.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
         html.append("<style type=\"text/css\" mce_bogus=\"1\">body {font-family: SimSun;text-align：center;} .avanta {width: 180px;height: 180px;} @page{size:210mm 297mm;} </style>");
         html.append("</head>");
-        html.append("<body>");
+        html.append("<body style='margin:0;padding:0'>");
         html.append("<p align=\"center\">&nbsp;</p>");
-        html.append("<center>");
-        html.append("@HTML_PDF@");
-        html.append("</center>");
+        html.append("<table>");
+        for(int i=0;i<36;i++)
+        	 html.append("<tr><td>测试PDF\n我是学生"+i+"</td></tr>");
+        html.append("</table>");
+        html.append("<table width=\"750\" border=\"0\" align=\"center\" style=\"border:1px solid #333333;margin-top:10px;table-layout:fixed;word-break:break-strict;\">");
+        html.append("<tr><td height=\"100\" align=\"center\"  nowrap=\"nowrap\" style=\"font-family:'SimSun';font-size:22px; color:balck\"><span style=\"font-weight:bold\">" + "客户投资风险承受能力测试问卷结果" + "</span></td></tr>");
+        html.append("<tr><td align=\"left\"><span>此次测试得分：</span><span style=\"text-decoration:underline;\">&nbsp;&nbsp;40&nbsp;&nbsp;</span><span>分</span></td></tr>");
+        // 分数所属类型
+        html.append("<tr><td align=\"left\"><span style=\"font-weight:bold\">尊敬的投资者，经过我们的测试，您的：</span></td></tr>");
+        html.append("<tr><td align=\"left\"><span style=\"font-weight:bold\">AAAAAAAAAAAAAAAAAAAAASDFADFSDF</span></td></tr>");
+        html.append("<tr><td align=\"left\"><span style=\"font-weight:bold\">AAAAAAAAAAAAAAAAAAAAASDFADFSDF</span></td></tr>");
+        html.append("</table>");
         html.append("</body></html>");
                    		
-        FileOutputStream out=new FileOutputStream("d:/aa.pdf");
+        FileOutputStream out=new FileOutputStream("d:/ab.pdf");
         
         ITextRenderer renderer = new ITextRenderer();
         ITextFontResolver fontResolver = renderer.getFontResolver();

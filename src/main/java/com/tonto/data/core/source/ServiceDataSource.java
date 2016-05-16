@@ -114,4 +114,9 @@ public class ServiceDataSource implements DataSource {
 		return null;
 	}
 
+	@Override
+	public String getKey() {
+		return service.getClass().getSimpleName()+"."+methodName+(path!=null?"."+path:"");
+	}
+
 }
