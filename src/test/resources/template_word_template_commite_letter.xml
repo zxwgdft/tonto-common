@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Word.Document"?>
+<w:wordDocument xmlns:aml="http://schemas.microsoft.com/aml/2001/core" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml" xmlns:wx="http://schemas.microsoft.com/office/word/2003/auxHint" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wsp="http://schemas.microsoft.com/office/word/2003/wordml/sp2" xmlns:sl="http://schemas.microsoft.com/schemaLibrary/2003/core" w:macrosPresent="no" w:embeddedObjPresent="no" w:ocxPresent="no" xml:space="preserve">
+<w:body>
+	<#if signImg??>
+		<w:binData w:name="wordml://img_sign.jpeg" xml:space="preserve">${signImg}</w:binData>
+	</#if>
+	<w:p>
+		<w:pPr>
+			<w:jc w:val="center" />
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:hint="fareast" />
+				<wx:font wx:val="黑体" />
+				<w:b/>
+				<w:sz w:val="32"/>
+				<w:sz-cs w:val="32"/>
+			</w:rPr>
+			<w:t>合格投资者书面承诺函</w:t>
+		</w:r>		
+	</w:p>
+	<w:p/>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>本人/本机构资金来源及用途符合法律、法规及合同的约定，亦不存在任何法律、法规或合同上的障碍。</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>本人/本机构承诺符合《私募投资基金监督管理暂行办法》中规定的合格投资者条件：</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>（一）净资产不低于1000万元的单位；</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>（二）金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人；</w:t>
+		</w:r>				
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>（三）《私募投资基金监督管理暂行办法》第三章第十三条所列的其他合格投资者。</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>前款所称金融资产包括银行存款、股票、债券、基金份额、资产管理计划、银行理财产品、信托计划、保险产品、期货权益等。</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>本人/本机构具备相应风险识别能力和风险承担能力，投资于</w:t>
+		</w:r>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>单只私募基金的金额不低于人民币100万元。</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>本人/本机构对上述承诺及提供材料的真实性、准确性和完整性负责。如填写虚假信息或者提供虚假承诺文件的，本人愿意承担相应责任。</w:t>
+		</w:r>
+	</w:p>
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="360" w:line-rule="auto" />
+			<w:ind w:first-line-chars="200" w:first-line="420" />
+			<w:jc w:val="left" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+	</w:p>
+	
+	<w:p />
+	<w:p />
+	<w:p />					
+
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="480" w:line-rule="auto" />
+			<w:jc w:val="right" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>承诺人：</w:t>
+		</w:r>
+		<#if signImg??>
+			<w:r>
+				<w:rPr>
+					<w:noProof/>
+				</w:rPr>
+				<w:pict>											
+					<v:shape id="图片_sign" style="position:absolute;margin-left:141.6pt;width:122.4pt;height:122.4pt;z-index:1;
+						mso-position-horizontal-relative:text;mso-position-vertical-relative:text">
+					<v:imagedata src="wordml://img_sign.jpeg"/>
+					</v:shape>
+				</w:pict>
+			</w:r>
+		</#if>
+	</w:p>
+	
+	<w:p>
+		<w:pPr>
+			<w:spacing w:line="480" w:line-rule="auto" />
+			<w:jc w:val="right" />
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+		</w:pPr>
+		<w:r>
+			<w:rPr>
+				<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+				<wx:font wx:val="宋体" />
+				<w:sz-cs w:val="21" />
+			</w:rPr>
+			<w:t>日期：   ${customer.dateOfCreate?date}</w:t>
+		</w:r>
+	</w:p>
+
+</w:body>
+</w:wordDocument>
+

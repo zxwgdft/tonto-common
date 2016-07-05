@@ -1,12 +1,16 @@
 package test.word;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import com.tonto.common.util.RandomUtil;
@@ -45,9 +49,20 @@ public class QuestionWordTest {
 		strs[4]="成长型";
 		
 		
+		
 		data.put("questionScoreTypes", strs);
+		data.put("caImage",encodeFile("D:/ca.png"));
 		
 		
+		FundInvestigationInfo info=new FundInvestigationInfo();
+		info.setName("周旭武");
+		info.setContactAddress("东城大道112号");
+		info.setContactWay("1353020303");
+		info.setCredentialsNumber("3201555344444");
+		info.setCredentialsType("身份证");
+		info.setDateOfCreate(new Date());
+		
+		data.put("customer",info);
 		Configuration cfg=new Configuration();		
 		cfg.setDirectoryForTemplateLoading(new File("src/test/resources"));
 		
@@ -55,9 +70,30 @@ public class QuestionWordTest {
 		WordWriter writer=new WordWriter();
 		
 		//writer.add(new WordFileTemplate(WordTest.class.getClassLoader().getResourceAsStream("word_1.xml")));		
-		writer.add(new WordFreeMakerTemplate(cfg.getTemplate("word_2.xml"),data));
+		writer.add(new WordFreeMakerTemplate(cfg.getTemplate("fund_word_template_b2.xml"),data));
 		
-		writer.write(new FileOutputStream("d:/fxpg.xml"));
+		writer.write(new FileOutputStream("d:/aadd.doc"));
+	}
+	
+	private String encodeFile(String filePath) throws Exception
+	{
+		byte[] data = new byte[0];
+        File file = new File(filePath);
+        if (file.exists()) {
+            FileInputStream in = new FileInputStream(file);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(2048);
+            byte[] cache = new byte[2048];
+            int nRead = 0;
+            while ((nRead = in.read(cache)) != -1) {
+                out.write(cache, 0, nRead);
+                out.flush();
+            }
+            out.close();
+            in.close();
+            data = out.toByteArray();
+         }
+        
+        return Base64.encodeBase64String(data);
 	}
 	
 	public static String[] indexs={"A", "B", "C", "D", "E", "F", "G",
@@ -79,9 +115,11 @@ public class QuestionWordTest {
 	{
 		int x= RandomUtil.getRandomInt(100);
 		int y= RandomUtil.getRandomInt(100);
+		int z= RandomUtil.getRandomInt(4);
 		
 		HashMap<String,Object> q1=new HashMap<>();
 		q1.put("name", x+"+"+y+"=?");
+		q1.put("select", indexs[z]);
 		
 		List<Map<String,Object>> answers=new ArrayList<>();
 		answers.add(createAnswer(0));

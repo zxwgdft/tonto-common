@@ -23,11 +23,16 @@ public class PdfCreator {
         html.append("</head>");
         html.append("<body style='margin:0;padding:0'>");
         html.append("<p align=\"center\">&nbsp;</p>");
+        html.append("<table width=\"750\" border=\"0\" align=\"center\" style=\"table-layout:fixed;word-break:break-strict;\">");
+        html.append("<tr><td height=\"100\" align=\"center\"  nowrap=\"nowrap\" style=\"font-family:'SimSun';font-size:22px; color:balck\"><span style=\"font-weight:bold\">" + "客户投资风险承受能力测试问卷" + "</span></td></tr>");
+        // 标题提示部分
+        html.append("<tr><td align=\"left\"><span>请您填写以下测试问卷，我公司承诺对您的个人资料保密。以下一系列问题可协助评估您的风险承受能力。请您回答所有的问题，并在各题最合适的答案上打勾。我们将根据您的总分鉴定您对投资风险的适应度，并确定适合您投资的产品(每题只能选择一项)。</span></td></tr>");
+        html.append("</table>");
         html.append("<table>");
-        for(int i=0;i<36;i++)
+        for(int i=0;i<31;i++)
         	 html.append("<tr><td>测试PDF\n我是学生"+i+"</td></tr>");
         html.append("</table>");
-        html.append("<table width=\"750\" border=\"0\" align=\"center\" style=\"border:1px solid #333333;margin-top:10px;table-layout:fixed;word-break:break-strict;\">");
+        html.append("<table width=\"750\" border=\"0\" align=\"center\" style=\"table-layout:fixed;word-break:break-strict;\">");
         html.append("<tr><td height=\"100\" align=\"center\"  nowrap=\"nowrap\" style=\"font-family:'SimSun';font-size:22px; color:balck\"><span style=\"font-weight:bold\">" + "客户投资风险承受能力测试问卷结果" + "</span></td></tr>");
         html.append("<tr><td align=\"left\"><span>此次测试得分：</span><span style=\"text-decoration:underline;\">&nbsp;&nbsp;40&nbsp;&nbsp;</span><span>分</span></td></tr>");
         // 分数所属类型
