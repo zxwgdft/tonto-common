@@ -9,7 +9,11 @@ import java.util.List;
  */
 public interface Attribution {
 	
-	public String getNamespace();
+	/**
+	 * ID 必须小于40个字符
+	 * @return
+	 */
+	public String getId();
 	public String getName();
 	public String getType();	
 	public String getIsMandatory();

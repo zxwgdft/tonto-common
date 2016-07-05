@@ -14,7 +14,6 @@ import java.util.Set;
 
 import com.tonto.common.util.NameUtil;
 
-
 /**
  * 默认属性类
  * 
@@ -24,35 +23,33 @@ import com.tonto.common.util.NameUtil;
 public class DefaultAttribution implements Attribution {
 
 	private static Set<Class<?>> baseClass;
-	private static Map<Class<?>,Class<?>> primary2BaseMap;
-	
+	private static Map<Class<?>, Class<?>> primary2baseMap;
+
 	static {
 		baseClass = new HashSet<>();
+
 		baseClass.add(Integer.class);
 		baseClass.add(Float.class);
 		baseClass.add(Double.class);
 		baseClass.add(Long.class);
-		baseClass.add(Short.class);		
+		baseClass.add(Short.class);
 		baseClass.add(Character.class);
 		baseClass.add(Boolean.class);
 		baseClass.add(String.class);
 		baseClass.add(Date.class);
 		baseClass.add(Byte.class);
 		baseClass.add(BigDecimal.class);
-		
-		
-		primary2BaseMap= new HashMap<>();
-		
-		primary2BaseMap.put(int.class, Integer.class);
-		primary2BaseMap.put(float.class, Float.class);
-		primary2BaseMap.put(double.class, Double.class);
-		primary2BaseMap.put(long.class, Long.class);
-		primary2BaseMap.put(char.class, Character.class);	
-		primary2BaseMap.put(byte.class, Byte.class);	
-		primary2BaseMap.put(boolean.class, Boolean.class);
-		primary2BaseMap.put(short.class, Integer.class);
 
-		
+		primary2baseMap = new HashMap<>();
+
+		primary2baseMap.put(int.class, Integer.class);
+		primary2baseMap.put(float.class, Float.class);
+		primary2baseMap.put(double.class, Double.class);
+		primary2baseMap.put(long.class, Long.class);
+		primary2baseMap.put(char.class, Character.class);
+		primary2baseMap.put(byte.class, Byte.class);
+		primary2baseMap.put(boolean.class, Boolean.class);
+		primary2baseMap.put(short.class, Integer.class);
 	}
 
 	// 姓名
@@ -69,6 +66,18 @@ public class DefaultAttribution implements Attribution {
 	private String definition;
 	// 如果是Object的话，对应的属性列表
 	private List<Attribution> attributions;
+
+	public DefaultAttribution() {
+
+	}
+
+	public DefaultAttribution(String name, Class<?> type, boolean isMandatory, String description, String definition) {
+		setName(name);
+		setType(type);
+		setDescription(description);
+		setDefinition(definition);
+		setIsMandatory(isMandatory);
+	}
 
 	@Override
 	public Boolean getIsObject() {
@@ -115,8 +124,14 @@ public class DefaultAttribution implements Attribution {
 	}
 
 	@Override
-	public String getNamespace() {
-		return type.getSimpleName();
+	public String getId() {
+		String id = type.getName();
+
+		if (id.length() >= 39) {
+			id = id.substring(id.length() - 39);
+		}
+
+		return "_" + id;
 	}
 
 	public void setAttributions(List<Attribution> attributions) {
@@ -128,11 +143,10 @@ public class DefaultAttribution implements Attribution {
 	}
 
 	public void setType(Class<?> type) {
-		if(type.isPrimitive())
-		{
-			type = primary2BaseMap.get(type);
+		if (type.isPrimitive()) {
+			type = primary2baseMap.get(type);
 		}
-		
+
 		this.type = type;
 	}
 
@@ -149,12 +163,12 @@ public class DefaultAttribution implements Attribution {
 	}
 
 	/**
-	 * 
-	 * @param clazz
-	 *            can't be collection
+	 * 创建一个对象清单
+	 * @param clazz can't be collection
 	 * @return
 	 */
-	public static Attribution createAttribution(Class<?> clazz) {
+	public static Attribution createObject(Class<?> clazz) {
+
 		DefaultAttribution attribution = new DefaultAttribution();
 
 		String name = clazz.getSimpleName();
@@ -162,12 +176,38 @@ public class DefaultAttribution implements Attribution {
 		attribution.setName(name);
 		attribution.setType(clazz);
 
-		attribution.setAttributions(createAttributions(clazz));
+		attribution.setAttributions(createAttributions(clazz, null));
 
 		return attribution;
 	}
 
-	public static List<Attribution> createAttributions(Class<?> clazz) {
+	/**
+	 * 创建一个对象清单
+	 * @param clazz can't be collection
+	 * @param descriptionAndDefinition 说明和描述的Map
+	 * @return
+	 */
+	public static Attribution createObject(Class<?> clazz, Map<Class<?>, Map<String, String[]>> descriptionAndDefinition) {
+
+		DefaultAttribution attribution = new DefaultAttribution();
+
+		String name = clazz.getSimpleName();
+
+		attribution.setName(name);
+		attribution.setType(clazz);
+
+		attribution.setAttributions(createAttributions(clazz, descriptionAndDefinition));
+
+		return attribution;
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param descriptionAndDefinition
+	 * @return
+	 */
+	private static List<Attribution> createAttributions(Class<?> clazz, Map<Class<?>, Map<String, String[]>> descriptionAndDefinition) {
 
 		Method[] methods = clazz.getMethods();
 
@@ -190,18 +230,29 @@ public class DefaultAttribution implements Attribution {
 
 				attribution.setName(name);
 				attribution.setIsList(isList);
-
 				attribution.setType(type);
 
 				if (!type.isInterface() && !type.isPrimitive() && !baseClass.contains(type)) {
-					attribution.setAttributions(createAttributions(type));
+					attribution.setAttributions(createAttributions(type, descriptionAndDefinition));
+				}
+
+				if (descriptionAndDefinition != null) {
+					Map<String, String[]> infos = descriptionAndDefinition.get(clazz);
+					if (infos != null) {
+						String[] descs = infos.get(type.getName());
+						if (descs != null) {
+							if (descs.length > 1) {
+								attribution.setDescription(descs[0]);
+								attribution.setDescription(descs[1]);
+							}
+						}
+					}
 				}
 
 			}
 		}
 
 		return attributions;
-
 	}
 
 }
