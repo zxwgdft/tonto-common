@@ -1,10 +1,7 @@
 package com.tonto.common.util.ducument.interfaces;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-
-import com.tonto.common.util.ducument.interfaces.test.TestB;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -32,22 +29,6 @@ public class ServiceDocument {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) throws IOException{
-		WebService service = new WebService();
-		service.setObjectListClass(TestB.class, false);
-		service.setName("测试");
-		service.setUrl("ssssss");
-		service.setMethod("sdfsdfsd");
-		service.setRequestType("Get");
-		
-		createServiceDocument(service , new FileWriter("d:/interface.doc"));
-	}
-	
 	
 	
 }

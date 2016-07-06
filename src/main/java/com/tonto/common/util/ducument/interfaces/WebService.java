@@ -13,7 +13,7 @@ import java.util.List;
 public class WebService {
 
 	// 接口名称
-	private String name;
+	private String name = "";
 
 	// 需要授权
 	private Boolean needAuthorize = true;
@@ -25,13 +25,13 @@ public class WebService {
 	private String interfaceSign = "";
 
 	// 请求URL
-	private String url;
+	private String url = "";
 
 	// 请求方法
-	private String method;
+	private String method = "";
 
 	// 请求类型(GET/POST...)
-	private String requestType;
+	private String requestType = "GET";
 
 	// 请求属性
 	private List<Attribution> systemRequestAttributions;
