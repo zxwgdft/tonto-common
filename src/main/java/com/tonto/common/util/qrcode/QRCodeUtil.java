@@ -37,8 +37,7 @@ public class QRCodeUtil {
 	 * @throws QRCodeException
 	 *             无法写入到文件或二维码数据无法解析
 	 */
-	public static void createQRCode(String contents, String path)
-			throws QRCodeException {
+	public static void createQRCode(String contents, String path) throws QRCodeException {
 		createQRCode(contents, Paths.get(path), default_config);
 	}
 
@@ -50,8 +49,7 @@ public class QRCodeUtil {
 	 * @throws QRCodeException
 	 *             无法写入到文件或二维码数据无法解析
 	 */
-	public static void createQRCode(String contents, Path path)
-			throws QRCodeException {
+	public static void createQRCode(String contents, Path path) throws QRCodeException {
 		createQRCode(contents, path, default_config);
 	}
 
@@ -64,16 +62,13 @@ public class QRCodeUtil {
 	 * @throws QRCodeException
 	 *             无法写入到文件或二维码数据无法解析
 	 */
-	public static void createQRCode(String contents, Path path,
-			QRCodeConfig config) throws QRCodeException {
-		config=config==null?default_config:config;
-		
+	public static void createQRCode(String contents, Path path, QRCodeConfig config) throws QRCodeException {
+		config = config == null ? default_config : config;
+
 		try {
-			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE,
-					config.getWidth(), config.getHeight(),
-					config.getEncodeHints());
-			MatrixToImageWriter.writeToPath(matrix, config.getFormat(), path,
-					config.getMatrixToImageConfig());
+			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE, config.getWidth(), config.getHeight(), config
+					.getEncodeHints());
+			MatrixToImageWriter.writeToPath(matrix, config.getFormat(), path, config.getMatrixToImageConfig());
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new QRCodeException("无法写入图片到文件：" + path);
@@ -91,8 +86,7 @@ public class QRCodeUtil {
 	 * @throws QRCodeException
 	 *             无法写入流或二维码数据无法解析
 	 */
-	public static void createQRCode(String contents, OutputStream stream)
-			throws QRCodeException {
+	public static void createQRCode(String contents, OutputStream stream) throws QRCodeException {
 		createQRCode(contents, stream, default_config);
 	}
 
@@ -105,16 +99,13 @@ public class QRCodeUtil {
 	 * @throws QRCodeException
 	 *             无法写入流或二维码数据无法解析
 	 */
-	public static void createQRCode(String contents, OutputStream stream,
-			QRCodeConfig config) throws QRCodeException {
-		config=config==null?default_config:config;
-		
+	public static void createQRCode(String contents, OutputStream stream, QRCodeConfig config) throws QRCodeException {
+		config = config == null ? default_config : config;
+
 		try {
-			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE,
-					config.getWidth(), config.getHeight(),
-					config.getEncodeHints());
-			MatrixToImageWriter.writeToStream(matrix, config.getFormat(),
-					stream, config.getMatrixToImageConfig());
+			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE, config.getWidth(), config.getHeight(), config
+					.getEncodeHints());
+			MatrixToImageWriter.writeToStream(matrix, config.getFormat(), stream, config.getMatrixToImageConfig());
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new QRCodeException("无法写入图片到流：" + stream);
@@ -123,32 +114,33 @@ public class QRCodeUtil {
 			throw new QRCodeException("无法解析二维码的数据：" + contents);
 		}
 	}
-	
+
 	/**
 	 * 创建有logo的二维码
+	 * 
 	 * @param contents
 	 * @param output
 	 * @param logoStream
 	 * @throws QRCodeException
 	 */
-	public static void createQRCode(String contents, OutputStream output,
-			InputStream logoStream) throws QRCodeException {
-		createQRCode(contents,output,logoStream,default_config);
+	public static void createQRCode(String contents, OutputStream output, InputStream logoStream) throws QRCodeException {
+		createQRCode(contents, output, logoStream, default_config);
 	}
-	
+
 	/**
 	 * 创建有logo的二维码
+	 * 
 	 * @param contents
 	 * @param output
 	 * @param logoStream
 	 * @param config
 	 * @throws QRCodeException
 	 */
-	public static void createQRCode(String contents, OutputStream output,
-			InputStream logoStream, QRCodeConfig config) throws QRCodeException {
-		
-		config=config==null?default_config:config;
-		
+	public static void createQRCode(String contents, OutputStream output, InputStream logoStream, QRCodeConfig config)
+			throws QRCodeException {
+
+		config = config == null ? default_config : config;
+
 		try {
 
 			int width = config.getWidth();
@@ -156,11 +148,9 @@ public class QRCodeUtil {
 			int onColor = config.getOnColor();
 			int offColor = config.getOffColor();
 
-			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE,
-					width, height, config.getEncodeHints());
+			BitMatrix matrix = writer.encode(contents, BarcodeFormat.QR_CODE, width, height, config.getEncodeHints());
 
-			BufferedImage qrImage = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_RGB);
+			BufferedImage qrImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
@@ -175,26 +165,46 @@ public class QRCodeUtil {
 
 			int logoHeight = logoImage.getHeight(null);
 			int logoWidth = logoImage.getWidth(null);
-			logoHeight = (int) (logoHeight > height * .15 ? height * .15
-					: logoHeight);
+			logoHeight = (int) (logoHeight > height * .15 ? height * .15 : logoHeight);
 			logoWidth = (int) (logoWidth > width * .15 ? width * .15 : logoWidth);
 
 			// 放中心
 			int x = (width - logoWidth) / 2;
 			int y = (height - logoHeight) / 2;
 
-			gs.drawImage(logoImage, x, y, logoWidth, logoHeight, null);
+			int bx = x;
+			int by = y;
+
+			int backgroundWidth = logoWidth;
+			int backgroundHeight = logoHeight;
+
+			// 画背景色
+			if (config.isShowLogoBackground()) {
+				
+				int padding = config.getBackgroundPadding();
+
+				bx -= padding;
+				by -= padding;
+
+				backgroundWidth += padding * 2;
+				backgroundHeight += padding * 2;
+				
+				gs.setColor(config.getLogeBackground());
+				gs.fillRect(bx, by, backgroundWidth, backgroundHeight);
+			}
 
 			// 画边框
 			if (config.isShowLogoBorder()) {
+
 				int size = config.getLogoBorderSize();
 
 				gs.setColor(config.getLogoBorderColor());
 				gs.setStroke(new BasicStroke(size));
-				gs.drawRoundRect(x, y, logoWidth, logoHeight, size * 2,
-						size * 2);
 
+				gs.drawRect(bx, by, backgroundWidth, backgroundHeight);
 			}
+
+			gs.drawImage(logoImage, x, y, logoWidth, logoHeight, null);
 
 			gs.dispose();
 
@@ -202,14 +212,12 @@ public class QRCodeUtil {
 			qrImage.flush();
 
 			if (!ImageIO.write(qrImage, config.getFormat(), output)) {
-				throw new QRCodeException("无法写入" + config.getFormat() + "图片到流"
-						+ output);
+				throw new QRCodeException("无法写入" + config.getFormat() + "图片到流" + output);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new QRCodeException("无法写入" + config.getFormat() + "图片到流"
-					+ output);
+			throw new QRCodeException("无法写入" + config.getFormat() + "图片到流" + output);
 		} catch (WriterException e) {
 			e.printStackTrace();
 			throw new QRCodeException("无法解析二维码的数据：" + contents);
