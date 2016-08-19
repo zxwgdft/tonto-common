@@ -18,66 +18,70 @@ import com.tonto.common.util.http.HttpClientManager;
 
 /**
  * IM服务
+ * 
  * @author TontoZhou
- *
+ * 
  */
 public class IMServlet {
-	
+
 	private final static Logger logger = Logger.getLogger(IMServlet.class);
-		
-	//应用
+
+	// 应用
 	private String appKey;
-	//客户端ID
+	// 客户端ID
 	private String clientId;
-	//客户端密码
+	// 客户端密码
 	private String clientSecret;
-	//授权注册密码
-	private String password;	
-	//是否启用运行
-	private boolean isRun=true;	
-	//访问IM的基础路径
+	// 授权注册密码
+	private String password;
+	// 访问IM的基础路径
 	private String baseUri = "";
-	
-	//最大重传次数
-	private int maxRetransmissionTime=2;
-	
+
+	// 最大重传次数
+	private int maxRetransmissionTime = 2;
+
+	/**
+	 * 异常回复处理类，可为null
+	 */
+	private ExceptionResponseHandler exceptionResponseHandler;
+
 	// ------------------------------------------------------
 	//
 	// initiate
 	//
 	// ------------------------------------------------------
-	
+
 	/**
 	 * 初始化
+	 * 
 	 * @param appkey
 	 * @param clientId
 	 * @param clientSecret
 	 */
-	public IMServlet(String appkey,String clientId,String clientSecret,String password){
-		
-		this.appKey=appkey;
-		this.clientId=clientId;
-		this.clientSecret=clientSecret;
-		this.password=password;
-		
+	public IMServlet(String appkey, String clientId, String clientSecret, String password) {
+
+		this.appKey = appkey;
+		this.clientId = clientId;
+		this.clientSecret = clientSecret;
+		this.password = password;
+
 		createBaseUri();
-		
-		logger.info("初始化IM应用:\n\tappKey:"+appKey+"\n\tclientId:"+clientId+"\n\tclientSecret:"+clientSecret+"\n\tIM的基础路径:"+baseUri);
+
+		logger.info("初始化IM应用:\n\tappKey:" + appKey + "\n\tclientId:" + clientId + "\n\tclientSecret:" + clientSecret
+				+ "\n\tIM的基础路径:" + baseUri);
 	}
-	
-	protected void createBaseUri(){				
-		//初始化访问IM的基础路径
-		baseUri = "http://a1.easemob.com/" + appKey.replace("#", "/") + "/";			
+
+	protected void createBaseUri() {
+		// 初始化访问IM的基础路径
+		baseUri = "http://a1.easemob.com/" + appKey.replace("#", "/") + "/";
 	}
-	
-	
+
 	// ------------------------------------------------------
 	//
 	// Send HttpRequest
 	//
 	// ------------------------------------------------------
-	
-	
+
 	/**
 	 * 拼装成IM的完整URI
 	 * 
@@ -100,83 +104,90 @@ public class IMServlet {
 	 * 
 	 * @param request
 	 * @return
-	 * @throws IMException 
+	 * @throws IMException
 	 */
 	public CloseableHttpResponse sendRequest(IMRequest request) throws IMException {
-		
-		if(!isRun)
-			return null;
-		
+
 		HttpUriRequest httpRequest = request.getHttpRequest();
 		HttpClientContext httpContext = request.getHttpContext();
 
-		try (CloseableHttpResponse response = HttpClientManager
-				.sendHttpRequest(httpRequest, httpContext);) {
+		CloseableHttpResponse response = null;
+
+		try {
+
+			response = HttpClientManager.sendHttpRequest(httpRequest, httpContext);
 
 			/*
 			 * 一些异常需要特殊处理，例如超时重发，token失效等，日后需要补，并尽量不影响业务层
-			 */	
-						
+			 */
+
 			int httpStatus = response.getStatusLine().getStatusCode();
-			
-			if (httpStatus != 200) {				
-				
-				if(httpStatus==401)
-				{
+
+			if (httpStatus != 200) {
+
+				if (httpStatus == 401) {
 					IMTokenHelper.resetToken();
 				}
-				
-				if(httpStatus==401||httpStatus==408)
-				{
+
+				if ((httpStatus == 401 || httpStatus == 408) && maxRetransmissionTime > 0) {
 					RetransmissionRequest retransmissionRequest;
-					
-					if(request instanceof RetransmissionRequest)
-						retransmissionRequest=(RetransmissionRequest) request;	
+
+					if (request instanceof RetransmissionRequest)
+						retransmissionRequest = (RetransmissionRequest) request;
 					else
-						retransmissionRequest=new RetransmissionRequest(request);						
-					 
-					if(retransmissionRequest.getRetransmissionTime()<maxRetransmissionTime)
-					{
-						if(logger.isDebugEnabled())
-							logger.debug("重发请求:"+retransmissionRequest.getRequestDescription());
-						retransmissionRequest.addRetransmissionTimes();					
-						return sendRequest(retransmissionRequest);										
+						retransmissionRequest = new RetransmissionRequest(request);
+
+					if (retransmissionRequest.getRetransmissionTime() < maxRetransmissionTime) {
+						if (logger.isDebugEnabled())
+							logger.debug("重发请求:" + retransmissionRequest.getRequestDescription());
+						retransmissionRequest.addRetransmissionTimes();
+						return sendRequest(retransmissionRequest);
 					}
-				}								
-								
-				String description=request.getRequestDescription();
-				String error=request.getResponseError(httpStatus);
-				String responseBody=EntityUtils.toString(response.getEntity(),Consts.UTF_8);
-				
-				logger.error("请求失败："+description);
+				}
+
+				String description = request.getRequestDescription();
+				String error = request.getResponseError(httpStatus);
+				String responseBody = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
+
+				logger.error("请求失败：" + description);
 				logger.error(error);
-				logger.error("错误返回:"+responseBody);
-				
+				logger.error("错误返回:" + responseBody);
+
+				if (exceptionResponseHandler != null)
+					exceptionResponseHandler.handle(response, request);
+
 				throw new IMException(error);
+			} else {
+				if (logger.isDebugEnabled())
+					logger.debug("请求成功：" + request.getRequestDescription());
 			}
-			else
-			{
-				if(logger.isDebugEnabled())
-					logger.debug("请求成功："+request.getRequestDescription());
-			}
-			
+
 			return response;
 
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 
-			throw new IMException(request.getRequestDescription()
-					+ "请求失败");
+			if (exceptionResponseHandler != null)
+				exceptionResponseHandler.handle(response, request);
+
+			throw new IMException(request.getRequestDescription() + "请求失败");
+
+		} finally {
+
+			if (response != null)
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
 		}
 	}
-	
+
 	// ------------------------------------------------------
 	//
 	// get/set function
 	//
 	// ------------------------------------------------------
-	
 
 	public String getAppKey() {
 		return appKey;
@@ -211,14 +222,6 @@ public class IMServlet {
 		this.password = password;
 	}
 
-	public boolean isRun() {
-		return isRun;
-	}
-
-	public void setRun(boolean isRun) {
-		this.isRun = isRun;
-	}
-
 	public String getBaseUri() {
 		return baseUri;
 	}
@@ -234,6 +237,13 @@ public class IMServlet {
 	public void setMaxRetransmissionTime(int maxRetransmissionTime) {
 		this.maxRetransmissionTime = maxRetransmissionTime;
 	}
-	
-	
+
+	public ExceptionResponseHandler getExceptionResponseHandler() {
+		return exceptionResponseHandler;
+	}
+
+	public void setExceptionResponseHandler(ExceptionResponseHandler exceptionResponseHandler) {
+		this.exceptionResponseHandler = exceptionResponseHandler;
+	}
+
 }

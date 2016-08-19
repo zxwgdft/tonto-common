@@ -6,7 +6,8 @@ import org.apache.http.entity.StringEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tonto.common.im.IMManager;
+import com.tonto.common.im.IMConstants;
+import com.tonto.common.im.IMServletContainer;
 import com.tonto.common.im.IMTokenHelper;
 import com.tonto.common.im.request.AbstrctIMRequest;
 
@@ -28,7 +29,7 @@ public class MessageRequest extends AbstrctIMRequest {
 
 	@Override
 	public HttpUriRequest createHttpRequest() {
-		HttpPost post = new HttpPost(IMManager.createIMServerUri("messages"));
+		HttpPost post = new HttpPost(IMServletContainer.getServlet().createIMServerUri("messages"));
 
 		post.addHeader("Content-Type", "application/json");
 		post.addHeader("Authorization", "Bearer " + IMTokenHelper.getToken());
@@ -55,7 +56,7 @@ public class MessageRequest extends AbstrctIMRequest {
 			
 			String bodyJson = objectMapper.writeValueAsString(message);
 			
-			post.setEntity(new StringEntity(bodyJson, IMManager.TEXT_PLAIN));
+			post.setEntity(new StringEntity(bodyJson, IMConstants.TEXT_PLAIN));
 
 			return post;
 

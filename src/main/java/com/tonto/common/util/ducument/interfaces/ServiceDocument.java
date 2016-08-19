@@ -9,7 +9,7 @@ import freemarker.template.TemplateException;
 
 public class ServiceDocument {
 
-	private static final Configuration templateConfig=new Configuration();	
+	private static final Configuration templateConfig=new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);	
 	
 	static{		
 		templateConfig.setClassForTemplateLoading(ServiceDocument.class,"");

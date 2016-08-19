@@ -29,14 +29,14 @@ public class ParseUtil {
 	private static final Map<String, Class<?>> primitives = new HashMap<>(8);
 
 	static {
-		primitives.put("byte", Byte.TYPE);
-		primitives.put("char", Character.TYPE);
-		primitives.put("double", Double.TYPE);
-		primitives.put("float", Float.TYPE);
-		primitives.put("int", Integer.TYPE);
-		primitives.put("long", Long.TYPE);
-		primitives.put("short", Short.TYPE);
-		primitives.put("boolean", Boolean.TYPE);
+		primitives.put("byte", Byte.class);
+		primitives.put("char", Character.class);
+		primitives.put("double", Double.class);
+		primitives.put("float", Float.class);
+		primitives.put("int", Integer.class);
+		primitives.put("long", Long.class);
+		primitives.put("short", Short.class);
+		primitives.put("boolean", Boolean.class);
 	}
 
 	/**
@@ -101,7 +101,6 @@ public class ParseUtil {
 				return str.charAt(0);
 			} else if (type == BigDecimal.class) {
 				return new BigDecimal(str);
-				
 			}
 
 		} catch (Exception e) {
@@ -116,7 +115,7 @@ public class ParseUtil {
 		return null;
 	}
 	
-	public static String parse2String(Object value) {
+	public static String parse2string(Object value) {
 		
 		if(value == null)
 			return null;

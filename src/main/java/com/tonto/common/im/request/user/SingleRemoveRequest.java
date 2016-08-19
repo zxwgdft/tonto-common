@@ -3,7 +3,7 @@ package com.tonto.common.im.request.user;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import com.tonto.common.im.IMManager;
+import com.tonto.common.im.IMServletContainer;
 import com.tonto.common.im.IMTokenHelper;
 import com.tonto.common.im.request.AbstrctIMRequest;
 import com.tonto.common.im.request.user.model.IMUser;
@@ -29,7 +29,7 @@ public class SingleRemoveRequest extends AbstrctIMRequest {
 
 	@Override
 	public HttpUriRequest createHttpRequest() {
-		HttpDelete delete=new HttpDelete(IMManager.createIMServerUri("users/"+username));
+		HttpDelete delete=new HttpDelete(IMServletContainer.getServlet().createIMServerUri("users/"+username));
 		
 		delete.addHeader("Authorization", "Bearer " + IMTokenHelper.getToken());
 				

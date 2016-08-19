@@ -64,4 +64,24 @@ public class NameUtil {
 
 	}
 	
+	
+	/**
+	 * 添加set后的驼峰式名称
+	 * @param name
+	 * @return
+	 */
+	public static String addSet(String name) {
+
+		char[] cs = name.toCharArray();
+
+		char c = cs[0];
+		if (c >= 97 && c <= 122) {
+			cs[0] -= 32;
+
+			return "set" + new String(cs);
+		} else {
+			return "set" + name;
+		}
+
+	}
 }

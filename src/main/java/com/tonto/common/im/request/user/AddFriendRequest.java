@@ -3,7 +3,7 @@ package com.tonto.common.im.request.user;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import com.tonto.common.im.IMManager;
+import com.tonto.common.im.IMServletContainer;
 import com.tonto.common.im.IMTokenHelper;
 import com.tonto.common.im.request.AbstrctIMRequest;
 
@@ -29,7 +29,7 @@ public class AddFriendRequest extends AbstrctIMRequest{
 	@Override
 	public HttpUriRequest createHttpRequest() {
 		
-		HttpPost post=new HttpPost(IMManager.createIMServerUri(String.format(tpl, owner, friend)));
+		HttpPost post=new HttpPost(IMServletContainer.getServlet().createIMServerUri(String.format(tpl, owner, friend)));
 		
 		post.addHeader("Authorization", "Bearer " + IMTokenHelper.getToken());
 		
