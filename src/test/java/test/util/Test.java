@@ -3,6 +3,8 @@ package test.util;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.tonto.common.util.XmlUtil;
+
 public class Test {
 	
 	public static void main(String[] args){
@@ -26,5 +28,12 @@ public class Test {
 		BigDecimal c = new BigDecimal(a);
 		BigDecimal d = new BigDecimal(b);
 		return c.compareTo(d)>=0;
+	}
+	
+	@org.junit.Test
+	public void tt(){
+		
+		
+		
 	}
 }

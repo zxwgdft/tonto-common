@@ -110,7 +110,7 @@ public class MapUtil {
 					} else if (value instanceof String) {
 						value = ParseUtil.parseString((String) value, paramClass);
 					} else if (paramClass == String.class){						
-						value = ParseUtil.parse2String(value);
+						value = ParseUtil.parse2string(value);
 					}
 					else {
 						continue;

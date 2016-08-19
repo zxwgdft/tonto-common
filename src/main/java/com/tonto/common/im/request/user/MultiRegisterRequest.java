@@ -4,7 +4,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 
-import com.tonto.common.im.IMManager;
+import com.tonto.common.im.IMConstants;
+import com.tonto.common.im.IMServletContainer;
 import com.tonto.common.im.IMTokenHelper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -29,7 +30,7 @@ public class MultiRegisterRequest extends AbstrctIMRequest{
 	@Override
 	public HttpUriRequest createHttpRequest() {
 		
-		HttpPost post=new HttpPost(IMManager.createIMServerUri("users"));
+		HttpPost post=new HttpPost(IMServletContainer.getServlet().createIMServerUri("users"));
 		
 		post.addHeader("Content-Type", "application/json");
 		post.addHeader("Authorization", "Bearer " + IMTokenHelper.getToken());
@@ -42,13 +43,13 @@ public class MultiRegisterRequest extends AbstrctIMRequest{
 			{
 				ObjectNode objectNode=JsonNodeFactory.instance.objectNode();
 				objectNode.put("username", user.getUsername());
-				objectNode.put("password", IMManager.getIMServlet().getPassword());
+				objectNode.put("password", IMServletContainer.getServlet().getPassword());
 				objectNode.put("nickname", user.getNickname());
 				arrayNode.add(objectNode);
 			}
 		}
 		
-		post.setEntity(new StringEntity(arrayNode.toString(),IMManager.TEXT_PLAIN));
+		post.setEntity(new StringEntity(arrayNode.toString(),IMConstants.TEXT_PLAIN));
 		
 		return post;		
 	}

@@ -3,7 +3,7 @@ package com.tonto.common.im.request.user;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import com.tonto.common.im.IMManager;
+import com.tonto.common.im.IMServletContainer;
 import com.tonto.common.im.IMTokenHelper;
 import com.tonto.common.im.request.AbstrctIMRequest;
 
@@ -23,7 +23,7 @@ public class GetUserRequest extends AbstrctIMRequest {
 	
 	@Override
 	public HttpUriRequest createHttpRequest() {
-		HttpGet get=new HttpGet(IMManager.createIMServerUri("users/"+username));
+		HttpGet get=new HttpGet(IMServletContainer.getServlet().createIMServerUri("users/"+username));
 		
 		get.addHeader("Authorization", "Bearer " + IMTokenHelper.getToken());				
 		return get;

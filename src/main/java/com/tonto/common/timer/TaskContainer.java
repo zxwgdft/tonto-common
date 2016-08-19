@@ -8,6 +8,7 @@ public class TaskContainer extends Thread {
 	private Object lock = new Object();
 
 	public void addTask(Task task) {
+		
 		synchronized (lock) {
 
 			if (i >= tasks.length) {

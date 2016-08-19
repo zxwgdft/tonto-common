@@ -13,7 +13,6 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 
-import com.tonto.common.im.IMManager;
 import com.tonto.common.util.http.HttpClientManager;
 import com.tonto.common.util.http.ResponseHandler;
 

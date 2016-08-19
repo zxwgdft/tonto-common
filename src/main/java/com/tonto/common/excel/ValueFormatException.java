@@ -1,45 +1,41 @@
 package com.tonto.common.excel;
 
-public class ValueFormatException extends Exception{
-	
+public class ValueFormatException extends Exception {
+
 	private static final long serialVersionUID = 8689153131957489882L;
 
 	private int row;
 	private String name;
 	private String reason;
-	
-	public ValueFormatException(int row,String name,String reason)
-	{
+
+	public ValueFormatException(int row, String name, String reason) {
 		super();
-		this.row=row;
-		this.name=name;
-		this.reason=reason;
+		this.row = row;
+		this.name = name;
+		this.reason = reason;
 	}
-	
-	public ValueFormatException(String msg)
-	{
+
+	public ValueFormatException(String msg) {
 		super();
-		reason=msg;	
+		reason = msg;
 	}
-	
-	public ValueFormatException()
-	{
+
+	public ValueFormatException() {
 		super();
 	}
-	
-	public String getMessage()
-	{
-		String msg="";
-		if(row>0)
-			msg+="读取第"+row+"行数据错误，";
+
+	public String getMessage() {
+		String msg = "";
+		if (row > 0)
+			msg += "读取第" + row + "行数据错误，";
 		else
-			msg+="读取数据错误，";
-		
-		if(name!=null)
-			msg+=name;
-		
-		if(reason!=null)
-			msg+=reason;
+			msg += "读取数据错误，";
+
+		if (name != null)
+			msg += name;
+
+		if (reason != null)
+			msg += reason;
 		return msg;
 	}
 

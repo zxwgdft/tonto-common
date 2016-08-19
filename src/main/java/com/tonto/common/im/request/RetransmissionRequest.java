@@ -68,4 +68,8 @@ public class RetransmissionRequest implements IMRequest{
 		this.retransmissionTime = retransmissionTime;
 	}
 
+	public IMRequest getRequest() {
+		return request;
+	}
+
 }
