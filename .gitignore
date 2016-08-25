@@ -28,3 +28,5 @@ target
 
 # Project Logs
 logs/
+target/classes/META-INF/maven/com.tonto.common/tonto_common/pom.properties
+target/classes/META-INF/MANIFEST.MF
