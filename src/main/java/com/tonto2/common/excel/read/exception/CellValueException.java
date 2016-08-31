@@ -32,7 +32,7 @@ public class CellValueException extends ExcelReadException {
 	}
 
 	public String getMessage() {
-		return "数据错误！[行数]：" + row + "/[名称]：" + column.getName() + "/[原因]：" + reason;
+		return "数据错误！行数：" + row + "/名称：" + column.getName() + "/原因：" + reason;
 	}
 
 	public int getRowIndex() {

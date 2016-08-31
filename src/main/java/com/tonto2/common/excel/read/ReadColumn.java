@@ -24,6 +24,9 @@ public abstract class ReadColumn {
 	// 对应excel上的列名
 	String name;
 	
+	// 是否数组
+	boolean isArray;
+	
 	
 	// 转化值方法
 	ReadPropertyConvert<?> convert;
@@ -60,9 +63,9 @@ public abstract class ReadColumn {
 	 * <p>优先考虑{@link PropertyValidate}实例的验证方法,该方法用于缺省情况下</p>
 	 * 
 	 * @param object
-	 * @return
+	 * @return 验证成功返回NULL，否则返回错误信息
 	 */
-	public abstract boolean validateValue(Object value);
+	public abstract String validateValue(Object value);
 	
 
 	public String getId() {
@@ -104,6 +107,14 @@ public abstract class ReadColumn {
 
 	public void setConvert(ReadPropertyConvert<?> convert) {
 		this.convert = convert;
+	}
+
+	public boolean isArray() {
+		return isArray;
+	}
+
+	public void setArray(boolean isArray) {
+		this.isArray = isArray;
 	}
 	
 	

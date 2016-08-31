@@ -25,12 +25,9 @@ public class ConsecutiveNumberSumGame {
 	
 	
 	public static void main(String[] args){
-		System.out.println("16:");
-		getNums(16);
-		System.out.println("15:");
-		getNums(15);
-		System.out.println("33:");
-		getNums(33);
+
+		System.out.println("5000:");
+		getNums(5000);
 	}
 	
 	private static void getNums(int n)
@@ -52,8 +49,8 @@ public class ConsecutiveNumberSumGame {
 					}
 					System.out.println(str);	
 				}
-				else
-					System.out.println("NONE");
+				//else
+					//System.out.println("NONE");
 			}
 		}
 	}

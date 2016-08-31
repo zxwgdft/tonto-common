@@ -15,4 +15,6 @@ public interface PropertyValidate {
 	 * @return
 	 */
 	public boolean validate(Object origin,Object value);
+	
+	public String getMessage();
 }
