@@ -16,7 +16,7 @@ import com.tonto2.common.excel.read.exception.ExcelReadException;
 
 public class ExcelReader<T> {
 	
-	private List<ReadColumn> columns;
+	protected List<ReadColumn> columns;
 
 	/*
 	 * 根据类型找到对应的{@link ReadPropertyConvert}和{@link PropertyValidate}方法
@@ -68,52 +68,43 @@ public class ExcelReader<T> {
 	
 
 	// 工作簿
-	private ISheet sheet;
+	protected ISheet sheet;
 	// 当前所在行号
-	private int currentRowIndex;
+	protected int currentRowIndex;
 	// 最大行号
-	private int lastRowIndex;
+	protected int lastRowIndex;
 
 	// 是否在读取一行记录的数据错误的情况下继续下一行
-	private boolean continueIfDataError = false;
+	protected boolean continueIfDataError = false;
 
 	// 需要转化的对象类
-	private Class<T> clazz;
+	protected Class<T> target;
 	
-	/**
-	 * 创建目标类型的EXCEL读入器，会根据注解{@link com.tonto2.common.excel.read.annotation.ReadProperty}自动生成CELL对应列
-	 * 
-	 * @param target
-	 */
-	public ExcelReader(Class<T> target, ISheet sheet)
+	public ExcelReader()
 	{
-		this(target, sheet, 0);
+		
 	}
 	
 	public ExcelReader(Class<T> target, ISheet sheet, int startRow)
 	{
-		clazz = target;
-		columns = DefaultReadColumn.createReadColumn(target, null);
-		currentRowIndex = startRow;
-		
-		this.sheet = sheet;
-		
-		init();
-	}
-	
-	//初始化
-	private void init()
-	{
-		lastRowIndex = sheet.getLastRowNum();		
+		this.target = target;
+		this.currentRowIndex = startRow;		
+		this.sheet = sheet;	
+		this.lastRowIndex = sheet.getLastRowNum();		
 	}
 	
 	
-	private T createInstance() throws ExcelReadException {
+	/**
+	 * 创建实例
+	 * @return
+	 * @throws ExcelReadException
+	 */
+	protected T createInstance() throws ExcelReadException {
 
 		try {
-			return clazz.newInstance();
+			return target.newInstance();
 		} catch (Exception e) {
-			throw new ExcelReadException("无法创建[" + clazz + "]转化的实例，确认是否有无参数的构造函数存在！", e);
+			throw new ExcelReadException("无法创建[" + target + "]转化的实例，确认是否有无参数的构造函数存在！", e);
 		}
 	}
 
