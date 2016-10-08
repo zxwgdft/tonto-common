@@ -17,4 +17,10 @@ public class Engin {
 		this.power = power;
 	}
 
+	public String toString(){
+		
+		return "发动机动力："+power+"匹";
+		
+	}
+	
 }

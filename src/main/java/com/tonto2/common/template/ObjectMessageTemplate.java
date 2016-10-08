@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import com.tonto2.common.utils.StringParser;
 import com.tonto2.common.utils.reflect.NameUtil;
+import com.tonto2.common.utils.regex.RegexUtil;
 
 /**
  * 根据传入的{@code Object}对模板进行创建消息，可传入{@link java.util.Map}类型参数或简单JAVA类型
@@ -29,13 +30,23 @@ import com.tonto2.common.utils.reflect.NameUtil;
  */
 public class ObjectMessageTemplate implements MessageTemplate {
 
-	private String template;
+	protected String template;
 
 	public ObjectMessageTemplate(InputStream input) throws IOException {
 		setTemplateInputStream(input);
 	}
 
 	public ObjectMessageTemplate(String template) {
+		setTemplate(template);
+	}
+	
+	public ObjectMessageTemplate(InputStream input, char prefix) throws IOException {
+		this.prefix = prefix;
+		setTemplateInputStream(input);
+	}
+
+	public ObjectMessageTemplate(String template, char prefix) {
+		this.prefix = prefix;
 		setTemplate(template);
 	}
 
@@ -124,9 +135,11 @@ public class ObjectMessageTemplate implements MessageTemplate {
 		return msg;
 	}
 
-	private final static Pattern namePattern = Pattern.compile("(?<=\\{)[a-z0-9A-Z_]+?(?=\\})");
+	protected Pattern namePattern = null;
 
-	private final static Pattern pattern = Pattern.compile("\\{[a-z0-9A-Z_]+?\\}");
+	protected Pattern pattern = null;
+
+	protected Character prefix = null;
 
 	// 模板参数map
 	protected List<String> mapper;
@@ -134,6 +147,16 @@ public class ObjectMessageTemplate implements MessageTemplate {
 	// 初始化
 	protected void init() {
 		if (template != null) {
+
+			if (prefix == null) {
+				namePattern = Pattern.compile("(?<=\\{)[a-z0-9A-Z_.]+?(?=\\})");
+				pattern = Pattern.compile("\\{[a-z0-9A-Z_.]+?\\}");
+			} else {
+				String prefixStr = RegexUtil.escapeChar(prefix);
+				namePattern = Pattern.compile("(?<=" + prefixStr + "\\{)[a-z0-9A-Z_.]+?(?=\\})");
+				pattern = Pattern.compile(prefixStr + "\\{[a-z0-9A-Z_.]+?\\}");
+			}
+
 			mapper = new ArrayList<String>();
 
 			Matcher matcher = namePattern.matcher(template);

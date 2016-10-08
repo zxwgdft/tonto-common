@@ -1,5 +1,6 @@
 package com.tonto2.common.utils.reflect;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -18,7 +19,8 @@ public class ReflectUtil {
 	 * @return
 	 */
 	public static Method getGetMethod(String name, Class<?> clazz) {
-		String methodName = NameUtil.addGet(name);
+
+		String methodName = Annotation.class.isAssignableFrom(clazz) ? name : NameUtil.addGet(name);
 		try {
 			Method method = clazz.getMethod(methodName);
 			if (method != null && method.getReturnType() != void.class)
@@ -141,9 +143,9 @@ public class ReflectUtil {
 		return getActualType((ParameterizedType) field.getGenericType(), 0);
 	}
 
-	
 	/**
 	 * 获取泛型实际类型
+	 * 
 	 * @param type
 	 * @param index
 	 * @return
@@ -151,5 +153,5 @@ public class ReflectUtil {
 	public static Class<?> getActualType(ParameterizedType type, int index) {
 		return (Class<?>) type.getActualTypeArguments()[index];
 	}
-	
+
 }
