@@ -18,7 +18,7 @@ hs_err_pid*
 .settings/
 bin/
 target
-\target\
+\target\*
 
 *.iml
 .idea/
@@ -28,3 +28,4 @@ target
 
 # Project Logs
 logs/
+pom.properties
