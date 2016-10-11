@@ -18,7 +18,7 @@ hs_err_pid*
 .settings/
 bin/
 target
-\target\*
+\target\
 
 *.iml
 .idea/
