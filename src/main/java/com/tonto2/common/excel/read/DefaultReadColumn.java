@@ -188,7 +188,7 @@ public class DefaultReadColumn extends ReadColumn {
 			
 			if(readBean != null)
 			{
-				List<ReadColumn> cs = createReadColumn(field.getType(),field.getName());
+				List<ReadColumn> cs = createReadColumn(field.getType(),path == null ? field.getName() : path + "." + field.getName());
 				if(cs != null)
 					columns.addAll(cs);
 				continue;

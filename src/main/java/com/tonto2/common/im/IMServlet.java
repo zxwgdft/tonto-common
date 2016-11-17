@@ -11,10 +11,10 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import com.tonto.common.util.http.HttpClientManager;
 import com.tonto2.common.im.exception.IMException;
 import com.tonto2.common.im.request.IMRequest;
 import com.tonto2.common.im.request.RetransmissionRequest;
+import com.tonto2.common.utils.http.HttpClientManager;
 
 /**
  * IM服务
@@ -118,7 +118,7 @@ public class IMServlet {
 			response = HttpClientManager.sendHttpRequest(httpRequest, httpContext);
 
 			/*
-			 * 一些异常需要特殊处理，例如超时重发，token失效等，日后需要补，并尽量不影响业务层
+			 * 超时重发，token失效处理
 			 */
 
 			int httpStatus = response.getStatusLine().getStatusCode();

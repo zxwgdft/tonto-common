@@ -4,7 +4,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 public class ReflectUtil {
 
@@ -153,5 +155,84 @@ public class ReflectUtil {
 	public static Class<?> getActualType(ParameterizedType type, int index) {
 		return (Class<?>) type.getActualTypeArguments()[index];
 	}
+	
+	/**
+	 * Field是否为Collection类型
+	 * @param field
+	 * @return
+	 */
+	public static boolean isCollection(Field field)
+	{
+		return field == null ? false : isCollection(field.getClass());
+	}
+	
+	/**
+	 * 是否是Collection类型
+	 * @param clazz
+	 * @return
+	 */
+	public static boolean isCollection(Class<?> clazz)
+	{
+		return clazz == null ? false : Collection.class.isAssignableFrom(clazz);
+	}
+	
+	/**
+	 * Field是否为Map类型
+	 * @param field
+	 * @return
+	 */
+	public static boolean isMap(Field field)
+	{
+		return field == null ? false : isMap(field.getClass());
+	}
+	
+	
+	/**
+	 * 是否为Map类型
+	 * @param clazz
+	 * @return
+	 */
+	public static boolean isMap(Class<?> clazz)
+	{
+		return clazz == null ? false : Map.class.isAssignableFrom(clazz);
+	}
+	
+	
+	/**
+	 * 反射获取类中方法
+	 * 
+	 * @param clazz
+	 * @param methodName
+	 * @param params
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	public static Method getMethodByParam(Class<?> clazz, String methodName,
+			Object... params) throws NoSuchMethodException, SecurityException {
+		Class<?>[] paramsClass = new Class<?>[params.length];
+
+		for (int i = 0; i < params.length; i++)
+			paramsClass[i] = params[i].getClass();
+
+		return getMethod(clazz, methodName, paramsClass);
+	}
+
+	/**
+	 * 反射获取类中方法
+	 * 
+	 * @param clazz
+	 * @param methodName
+	 * @param paramsClass
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	public static Method getMethod(Class<?> clazz, String methodName,
+			Class<?>... paramsClass) throws NoSuchMethodException,
+			SecurityException {
+		return clazz.getMethod(methodName, paramsClass);
+	}
+
 
 }

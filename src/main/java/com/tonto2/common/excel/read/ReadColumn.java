@@ -42,7 +42,7 @@ public abstract class ReadColumn {
 	
 	/**
 	 * <h2>转化值</h2>
-	 * <p>优先考虑{@link PropertyConvert}实例的验证方法,该方法用于缺省情况下</p> 
+	 * <p>优先考虑{@link PropertyConvert}实例的转化方法,该方法用于缺省情况下</p> 
 	 * 
 	 * 
 	 * @param cell

@@ -3,9 +3,9 @@ package com.tonto.data.core.source;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.tonto.common.util.ReflectUtil;
 import com.tonto.data.core.DataSource;
 import com.tonto.data.core.util.DataGetter;
+import com.tonto2.common.utils.reflect.ReflectUtil;
 
 /**
  * 服务数据

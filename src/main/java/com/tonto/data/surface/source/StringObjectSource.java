@@ -6,8 +6,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tonto.common.util.XmlUtil;
 import com.tonto.data.core.source.ObjectDataSource;
+import com.tonto2.common.utils.xml.XmlUtil;
 
 /**
  * 以字符串形式表现的固定资源

@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.tonto.common.util.ducument.interfaces.ServiceDocument;
-import com.tonto.common.util.ducument.interfaces.WebService;
+import com.tonto2.common.utils.document.interfaces.ServiceDocument;
+import com.tonto2.common.utils.document.interfaces.WebService;
 
 public class WebServiceTest {
 	
